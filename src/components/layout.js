@@ -13,6 +13,20 @@ import { Container } from 'rsuite'
 import Header from "./header"
 import "./layout.css"
 
+const layoutStyle = {
+  main: {
+    minheight: 'calc(100vh - 185px)',
+  },
+  footer: {
+    width: "100%",
+    position: 'relative',
+    display: "flex",
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center'
+  }
+}
+
 const Layout = ({ children }) => (
   <StaticQuery
     query={graphql`
@@ -27,22 +41,13 @@ const Layout = ({ children }) => (
     render={data => (
       <Container>
         <Header siteTitle={data.site.siteMetadata.title} />
-        <div
-          style={{
-            margin: `0 auto`,
-            maxWidth: 960,
-            padding: `0px 1.0875rem 1.45rem`,
-            paddingTop: 0,
-          }}
-        >
-          <main style={{ height: 'calc(100vh - 185px)' }}>{children}</main>
-          <footer>
-            © {new Date().getFullYear()}, Built with
-            {` `}
-            <a href="https://www.gatsbyjs.org">Gatsby</a>
-            <a href="https://cosmicjs.com/add-bucket?import_bucket=5cbf745a10d5c22da1f9b3e2"><img src="https://s3-us-west-2.amazonaws.com/cosmicjs/51fe54d0-4f6e-11e9-9f32-8d001da69630-powered-by-cosmicjs.svg" /></a>
-          </footer>
-        </div>
+        <main style={layoutStyle.main}>{children}</main>
+        <footer style={layoutStyle.footer}>
+          <span>
+            © {new Date().getFullYear()}, Built with <a href="https://www.gatsbyjs.org">Gatsby</a>
+          </span>
+          <a href="https://cosmicjs.com/add-bucket?import_bucket=5cbf745a10d5c22da1f9b3e2"><img src="https://s3-us-west-2.amazonaws.com/cosmicjs/51fe54d0-4f6e-11e9-9f32-8d001da69630-powered-by-cosmicjs.svg" /></a>
+        </footer>
       </Container>
     )}
   />

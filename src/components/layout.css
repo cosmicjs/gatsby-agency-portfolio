@@ -615,6 +615,19 @@ pre tt:before,
 pre tt:after {
   content: "";
 }
+.section-container {
+  width: 100%;
+  min-height: 100vh;
+}
+.section-container.bottom {
+  min-height: 50vh;
+  max-height: 50vh;
+}
+.section-title {
+  font-size: 2.5rem;
+  margin: 50px;
+}
+
 @media only screen and (max-width: 480px) {
   html {
     font-size: 100%;

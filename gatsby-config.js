@@ -1,7 +1,7 @@
 module.exports = {
   siteMetadata: {
-    title: `Minimal Agency Portfolio`,
-    description: `Kick off your next, great Gatsby project with this default starter. This barebones starter ships with the main Gatsby configuration files you might need.`,
+    title: `Gatsby Agency Portfolio`,
+    description: `A portfolio for your creative shop`,
     author: `@JacobKnaack`,
   },
   plugins: [
