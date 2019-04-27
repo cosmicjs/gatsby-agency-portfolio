@@ -11,7 +11,7 @@ import { StaticQuery, graphql } from "gatsby"
 
 import { Container } from 'rsuite'
 import Header from "./header"
-import "./layout.css"
+import "./layout.scss"
 
 const layoutStyle = {
   main: {

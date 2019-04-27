@@ -618,10 +618,30 @@ pre tt:after {
 .section-container {
   width: 100%;
   min-height: 100vh;
+
+  input, textarea, button {
+    margin: 15px 0 0 15px;
+  }
+}
+.content {
+  max-width: 1000px;
+  margin: 0 auto;
 }
 .section-container.bottom {
   min-height: 50vh;
   max-height: 50vh;
+}
+.section-wrapper {
+  padding: 20px;
+}
+.wrapper-content {
+  width: 100%;
+  height: 30%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  overflow-x: auto;
 }
 .section-title {
   font-size: 2.5rem;

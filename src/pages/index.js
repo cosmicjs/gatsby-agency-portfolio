@@ -1,7 +1,7 @@
 import React from "react"
 import PropTypes from "prop-types"
-import { graphql } from "gatsby"
-import { Animation, Input, Button, Message } from 'rsuite'
+import { Link, graphql } from "gatsby"
+import { Animation, Icon, Input, Button, Message } from 'rsuite'
 const { Fade, Collapse } = Animation
 
 import 'rsuite/dist/styles/rsuite.min.css'
@@ -60,6 +60,26 @@ class IndexPage extends React.Component {
         justifyContent: 'flex-start',
         alignItems: 'flex-start',
         transition: '0.4s ease-in-out'
+      },
+      contactForm: {
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+      },
+      service: {
+        height: '250px',
+        width: '200px',
+        margin: '50px',
+        paddingTop: '20px',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+      },
+      project: {
+        margin: '50px',
+        minWidth: '200px',
       }
     }
     if (data.page.object.metadata.splash_image) {
@@ -80,28 +100,50 @@ class IndexPage extends React.Component {
             : null
           }
         </section>
-        <section style={styles.work} className="section-container work">
-          <Fade in={this.state.showProjects}>
-            <h2 className="section-title">What We Do</h2>
+        <section style={styles.work} className="section-container content work">
+          <Fade in={this.state.showWork}>
+            <div className="section-wrapper">
+              <h2 className="section-title">What We Do</h2>
+              <div className="wrapper-content services">
+                {data.page.object.metadata.services.map(service => (
+                  <Link to="/work" key={service.name} style={styles.service}>
+                    <Icon icon={service.icon} />
+                    <h5>{service.name}</h5>
+                    <p>{service.description}</p>
+                  </Link>
+                ))}
+              </div>
+              <div className="wrapper-content projects">
+                {data.page.object.metadata.showcase.map(project => {
+                  let style = styles.project
+                  style.background = `url(${project.image})`
+                  return (
+                    <Link to="/projects" key={project.title} style={style}>
+                      <h5>{project.title}</h5>
+                    </Link>
+                  )
+                })}
+              </div>
+            </div>
           </Fade>
         </section>
-        <section className="section-container people">
+        <section className="section-container content people">
           <Fade in={this.state.showPeople}>
             <div>
               <h2 className="section-title">Who We Are</h2>
             </div>
           </Fade>
         </section>
-        <section name="contact" className="section-container bottom contact">
+        <section name="contact" className="section-container content bottom contact" >
           <Fade in={this.state.showContact}>
             <div className="contact-container">
               <div className="imageFilter" />
               <h2 className="section-title">Contact Us</h2>
-              <form onSubmit={this.handleContactForm}>
+              <form style={styles.contactForm} onSubmit={this.handleContactForm}>
                 <Collapse in={this.state.messageError}>
                   <Message type="error" title="Error" description="Please Provide a valid input to all fields" />
                 </Collapse>
-                <div>
+                <div style={{ width: '100%', display: 'flex', flexDirection: 'row' }}>
                   <Input name="userName" value={this.state.userName} onChange={this.handleInput} placeholder="Name" />
                   <Input name="userEmail" value={this.state.userEmail} onChange={this.handleInput} placeholder="Email" />
                 </div>
@@ -126,17 +168,17 @@ class IndexPage extends React.Component {
   }
 
   handleScroll() {
-    if (window.scrollY >= window.innerHeight / 3) {
-      this.setState({ showProjects: true })
+    if (window.scrollY >= window.innerHeight / 2.5) {
+      this.setState({ showWork: true })
     } else {
-      this.setState({ showProjects: false })
+      this.setState({ showWork: false })
     }
-    if (window.scrollY >= (window.innerHeight / 3) + window.innerHeight) {
+    if (window.scrollY >= (window.innerHeight / 2.5) + window.innerHeight) {
       this.setState({ showPeople: true })
     } else {
       this.setState({ showPeople: false })
     }
-    if (window.scrollY >= (window.innerHeight / 3) + (2 * window.innerHeight)) {
+    if (window.scrollY >= (window.innerHeight / 2.5) + (2 * window.innerHeight)) {
       this.setState({ showContact: true })
     } else {
       this.setState({ showContact: false })
