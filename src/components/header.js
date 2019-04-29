@@ -25,6 +25,7 @@ class Header extends React.Component {
       container: {
         position: 'fixed',
         width: '100%',
+        zIndex: 100,
         background: 'none',
         marginBottom: `1.45rem`,
         display: 'flex',

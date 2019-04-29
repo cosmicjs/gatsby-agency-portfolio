@@ -79,7 +79,8 @@ class IndexPage extends React.Component {
       },
       project: {
         margin: '50px',
-        minWidth: '200px',
+        minWidth: '400px',
+        minHeight: '400px',
       }
     }
     if (data.page.object.metadata.splash_image) {
@@ -117,9 +118,12 @@ class IndexPage extends React.Component {
                 {data.page.object.metadata.showcase.map(project => {
                   let style = styles.project
                   style.background = `url(${project.image})`
+                  style.backgroundSize = 'cover'
+                  style.backgroundPosition = 'center'
                   return (
                     <Link to="/projects" key={project.title} style={style}>
                       <h5>{project.title}</h5>
+                      <p>{project.description}</p>
                     </Link>
                   )
                 })}
@@ -129,8 +133,20 @@ class IndexPage extends React.Component {
         </section>
         <section className="section-container content people">
           <Fade in={this.state.showPeople}>
-            <div>
+            <div className="section-wrapper">
               <h2 className="section-title">Who We Are</h2>
+              <div className="wrapper-content people">
+                <p className="people-description">{data.page.object.metadata.description}</p>
+                {data.page.object.metadata.people.map(person => {
+                  return (
+                    <Link key={person.name} to="/about">
+                      <h5>{person.name}</h5>
+                      <h6>{person.title}</h6>
+                      <img alt={person.name} src={person.imageUrl} />
+                    </Link>
+                  )
+                })}
+              </div>
             </div>
           </Fade>
         </section>
@@ -168,18 +184,18 @@ class IndexPage extends React.Component {
   }
 
   handleScroll() {
-    if (window.scrollY >= window.innerHeight / 2.5) {
+    if (window.scrollY >= (window.innerHeight / 2) + 150) {
       this.setState({ showWork: true })
     } else {
       this.setState({ showWork: false })
     }
-    if (window.scrollY >= (window.innerHeight / 2.5) + window.innerHeight) {
-      this.setState({ showPeople: true })
+    if (window.scrollY >= (window.innerHeight / 2.5) + (window.innerHeight + 200)) {
+      this.setState({ showPeople: true, showWork: false })
     } else {
       this.setState({ showPeople: false })
     }
-    if (window.scrollY >= (window.innerHeight / 2.5) + (2 * window.innerHeight)) {
-      this.setState({ showContact: true })
+    if (window.scrollY >= (window.innerHeight / 2.5) + (2 * window.innerHeight + 100)) {
+      this.setState({ showContact: true, showPeople: false })
     } else {
       this.setState({ showContact: false })
     }
