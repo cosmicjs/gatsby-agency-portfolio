@@ -40,7 +40,7 @@ class IndexPage extends React.Component {
   }
 
   render() {
-    const { data } = this.props
+    const pageData = this.props.data
     const styles = {
       splash: {
         background: `#000000`,
@@ -83,20 +83,19 @@ class IndexPage extends React.Component {
         minHeight: '400px',
       }
     }
-    if (data.page.object.metadata.splash_image) {
-      styles.splash.background = `url(${data.page.object.metadata.splash_image.url})`
+    if (pageData.page.object.metadata.splash_image) {
+      styles.splash.background = `url(${pageData.page.object.metadata.splash_image.url})`
       styles.splash.backgroundSize = `cover`
       styles.splash.backgroundRepeat = 'no-repeat'
       styles.splash.backgroundPosition = 'center'
     }
-
     return (
-      <Layout>
+      <Layout siteTitle={pageData.layout.object.metadata.site_title} siteLogo={pageData.layout.object.metadata.site_logo}>
         <SEO title="Home" keywords={[`cosmic js`, `application`, `react`]} />
         <section style={styles.splash} className="section-container splash">
-          {data.page.object.metadata.splash_phrase
+          {pageData.page.object.metadata.splash_phrase
             ? <div className="splash-phrase" style={styles.splashPhrase}>
-              <h2 style={{ fontSize: '2.5rem' }}>{data.page.object.metadata.splash_phrase}</h2>
+              <h2 style={{ fontSize: '2.5rem' }}>{pageData.page.object.metadata.splash_phrase}</h2>
             </div>
             : null
           }
@@ -105,17 +104,8 @@ class IndexPage extends React.Component {
           <Fade in={this.state.showWork}>
             <div className="section-wrapper">
               <h2 className="section-title">What We Do</h2>
-              <div className="wrapper-content services">
-                {data.page.object.metadata.services.map(service => (
-                  <Link to="/work" key={service.name} style={styles.service}>
-                    <Icon icon={service.icon} />
-                    <h5>{service.name}</h5>
-                    <p>{service.description}</p>
-                  </Link>
-                ))}
-              </div>
               <div className="wrapper-content projects">
-                {data.page.object.metadata.showcase.map(project => {
+                {pageData.page.object.metadata.showcase.map(project => {
                   let style = styles.project
                   style.background = `url(${project.image})`
                   style.backgroundSize = 'cover'
@@ -128,6 +118,15 @@ class IndexPage extends React.Component {
                   )
                 })}
               </div>
+              <div className="wrapper-content services">
+                {pageData.page.object.metadata.services.map(service => (
+                  <Link to="/work" key={service.name} style={styles.service}>
+                    <Icon icon={service.icon} />
+                    <h5>{service.name}</h5>
+                    <p>{service.description}</p>
+                  </Link>
+                ))}
+              </div>
             </div>
           </Fade>
         </section>
@@ -136,8 +135,8 @@ class IndexPage extends React.Component {
             <div className="section-wrapper">
               <h2 className="section-title">Who We Are</h2>
               <div className="wrapper-content people">
-                <p className="people-description">{data.page.object.metadata.description}</p>
-                {data.page.object.metadata.people.map(person => {
+                <p className="people-description">{pageData.page.object.metadata.description}</p>
+                {pageData.page.object.metadata.people.map(person => {
                   return (
                     <Link key={person.name} to="/about">
                       <h5>{person.name}</h5>
@@ -221,18 +220,23 @@ class IndexPage extends React.Component {
 
 IndexPage.propTypes = {
   data: PropTypes.object,
-  pageContext: PropTypes.object,
 }
 
 export const query = graphql`
   query($cosmicBucket: String!, $readKey: String!) {
-          page {
-        object(bucket_slug: $cosmicBucket, read_key: $readKey, slug: "home") {
-          title
-          metadata
-        }
+    page {
+      object(bucket_slug: $cosmicBucket, read_key: $readKey, slug: "home") {
+        title
+        metadata
       }
     }
-  `
+    layout {
+      object(bucket_slug: $cosmicBucket, read_key: $readKey, slug: "layout") {
+        title
+        metadata
+      }
+    }
+  }
+`
 
 export default IndexPage

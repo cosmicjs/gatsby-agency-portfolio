@@ -7,7 +7,6 @@
 
 import React from "react"
 import PropTypes from "prop-types"
-import { StaticQuery, graphql } from "gatsby"
 
 import { Container } from 'rsuite'
 import Header from "./header"
@@ -27,34 +26,25 @@ const layoutStyle = {
   }
 }
 
-const Layout = ({ children }) => (
-  <StaticQuery
-    query={graphql`
-      query SiteTitleQuery {
-        site {
-          siteMetadata {
-            title
-          }
-        }
-      }
-    `}
-    render={data => (
-      <Container>
-        <Header siteTitle={data.site.siteMetadata.title} />
-        <main style={layoutStyle.main}>{children}</main>
-        <footer style={layoutStyle.footer}>
-          <span>
-            © {new Date().getFullYear()}, Built with <a href="https://www.gatsbyjs.org">Gatsby</a>
-          </span>
-          <a href="https://cosmicjs.com/add-bucket?import_bucket=5cbf745a10d5c22da1f9b3e2"><img src="https://s3-us-west-2.amazonaws.com/cosmicjs/51fe54d0-4f6e-11e9-9f32-8d001da69630-powered-by-cosmicjs.svg" /></a>
-        </footer>
-      </Container>
-    )}
-  />
-)
+const Layout = ({ children, siteTitle, siteLogo }) => {
+  return (
+    <Container>
+      <Header siteTitle={siteTitle} logo={siteLogo} />
+      <main style={layoutStyle.main}>{children}</main>
+      <footer style={layoutStyle.footer}>
+        <span>
+          © {new Date().getFullYear()}, Built with <a href="https://www.gatsbyjs.org">Gatsby</a>
+        </span>
+        <a href="https://cosmicjs.com/add-bucket?import_bucket=5cbf745a10d5c22da1f9b3e2"><img src="https://s3-us-west-2.amazonaws.com/cosmicjs/51fe54d0-4f6e-11e9-9f32-8d001da69630-powered-by-cosmicjs.svg" /></a>
+      </footer>
+    </Container>
+  )
+}
 
 Layout.propTypes = {
   children: PropTypes.node.isRequired,
+  siteTitle: PropTypes.string.isRequired,
+  siteLogo: PropTypes.string.isRequired,
 }
 
 export default Layout
