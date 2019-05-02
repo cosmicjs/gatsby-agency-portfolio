@@ -8,17 +8,27 @@ class Header extends React.Component {
     super()
     this.state = {
       scrollTop: true,
-      activeKey: window.location.pathname,
+      activeKey: '',
     }
     this.handleScroll = this.handleScroll.bind(this)
   }
 
+  componentWillMount() {
+    if (typeof window !== 'undefined') {
+      this.setState({ activeKey: window.location.pathname })
+    }
+  }
+
   componentDidMount() {
-    window.addEventListener('scroll', this.handleScroll)
+    if (typeof window !== 'undefined') {
+      window.addEventListener('scroll', this.handleScroll)
+    }
   }
 
   componentWillUnmount() {
-    window.removeEventListener('scroll', this.handleScroll)
+    if (typeof window !== 'undefined') {
+      window.removeEventListener('scroll', this.handleScroll)
+    }
   }
 
   render() {
