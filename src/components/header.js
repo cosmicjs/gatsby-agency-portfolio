@@ -43,19 +43,21 @@ class Header extends React.Component {
       },
       link: {
         color: `#2C2B3B`,
+        textShadow: '0px 0px 1px #ffffff',
         margin: '0 0 0 30px',
         textDecoration: `none`,
       },
       logo: {
         width: '50px',
+        padding: '10px',
         margin: '0',
-        borderRadius: '30px',
       }
     }
     if (!this.state.scrollTop) {
       styles.container.background = `#000000`
       styles.container.color = `#ffffff`
       styles.link.color = `#ffffff`
+      styles.link.textShadow = 'none'
     }
 
     const { siteTitle, logo } = this.props

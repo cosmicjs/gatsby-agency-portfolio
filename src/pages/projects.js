@@ -1,6 +1,6 @@
 import React from "react"
 import PropTypes from 'prop-types'
-import { Link, graphql } from "gatsby"
+import { graphql } from "gatsby"
 
 import Layout from "../components/layout"
 import SEO from "../components/seo"
@@ -12,11 +12,13 @@ class Projects extends React.Component {
     return (
       <Layout siteTitle={pageData.layout.object.metadata.site_title} siteLogo={pageData.layout.object.metadata.site_logo}>
         <SEO title="Projects" />
-        <section className="section-container">
-          <h1>This is the Projects page</h1>
-          <Link to="/">
-            Go back to the homepage
-          </Link>
+        <section className="page-container">
+          <header className="page-header projects">
+            <h3>See What We Do</h3>
+          </header>
+          <div className="project-gallery">
+
+          </div>
         </section>
       </Layout>
     )

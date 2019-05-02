@@ -12,8 +12,10 @@ class Work extends React.Component {
     return (
       <Layout siteTitle={pageData.layout.object.metadata.site_title} siteLogo={pageData.layout.object.metadata.site_logo}>
         <SEO title="Work" />
-        <section className="section-container">
-          <h1>This is the Work page</h1>
+        <section className="page-container work">
+          <header className="page-header work">
+            <h3>Our Services</h3>
+          </header>
           <Link to="/">
             Go back to the homepage
           </Link>

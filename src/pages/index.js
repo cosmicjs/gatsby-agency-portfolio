@@ -7,6 +7,7 @@ const { Fade, Collapse } = Animation
 import 'rsuite/dist/styles/rsuite.min.css'
 import Layout from "../components/layout"
 import SEO from "../components/seo"
+import ProjectDisplay from '../components/projectDisplay.js'
 
 // Home Page
 class IndexPage extends React.Component {
@@ -76,15 +77,11 @@ class IndexPage extends React.Component {
         flexDirection: 'column',
         justifyContent: 'flex-start',
         alignItems: 'center',
-      },
-      project: {
-        margin: '50px',
-        minWidth: '400px',
-        minHeight: '400px',
       }
     }
     if (pageData.page.object.metadata.splash_image) {
       styles.splash.background = `url(${pageData.page.object.metadata.splash_image.url})`
+      // styles.splash.backgroundAttachment = 'fixed'
       styles.splash.backgroundSize = `cover`
       styles.splash.backgroundRepeat = 'no-repeat'
       styles.splash.backgroundPosition = 'center'
@@ -105,18 +102,14 @@ class IndexPage extends React.Component {
             <div className="section-wrapper">
               <h2 className="section-title">What We Do</h2>
               <div className="wrapper-content projects">
-                {pageData.page.object.metadata.showcase.map(project => {
-                  let style = styles.project
-                  style.background = `url(${project.image})`
-                  style.backgroundSize = 'cover'
-                  style.backgroundPosition = 'center'
-                  return (
-                    <Link to="/projects" key={project.title} style={style}>
-                      <h5>{project.title}</h5>
-                      <p>{project.description}</p>
-                    </Link>
-                  )
-                })}
+                {pageData.page.object.metadata.showcase.map(project => (
+                  <ProjectDisplay
+                    key={project.title}
+                    title={project.title}
+                    description={project.description}
+                    image={project.image}
+                  />
+                ))}
               </div>
               <div className="wrapper-content services">
                 {pageData.page.object.metadata.services.map(service => (
