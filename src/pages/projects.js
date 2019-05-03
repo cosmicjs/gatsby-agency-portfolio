@@ -9,11 +9,15 @@ class Projects extends React.Component {
 
   render() {
     const pageData = this.props.data
+    let headerBreakpoint
+    if (typeof window !== 'undefined') {
+      headerBreakpoint = window.innerHeight / 3
+    }
     return (
       <Layout
         siteTitle={pageData.layout.object.metadata.site_title}
         siteLogo={pageData.layout.object.metadata.site_logo}
-        headerBreakpoint={window.innerHeight / 2}
+        headerBreakpoint={headerBreakpoint}
       >
         <SEO title="Projects" />
         <section className="page-container">

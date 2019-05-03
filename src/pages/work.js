@@ -10,6 +10,11 @@ class Work extends React.Component {
 
   render() {
     const pageData = this.props.data
+    const services = pageData.page.object.metadata.services
+    let headerBreakpoint
+    if (typeof window !== 'undefined') {
+      headerBreakpoint = window.innerHeight / 3
+    }
     const styles = {
       header: {
         padding: '0',
@@ -22,6 +27,17 @@ class Work extends React.Component {
       },
       serviceDetails: {
         width: '50%',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+      },
+      detailsName: {
+        fontSize: '2rem',
+      },
+      detailsDesc: {
+        fontSize: '1.5rem',
+        textAlign: 'center',
       },
       headerFilter: {
         backgroundColor: 'rgba(0,0,0,0.6)',
@@ -35,12 +51,14 @@ class Work extends React.Component {
     }
     if (pageData.page.object.metadata.splash_image) {
       styles.header.background = `url(${pageData.page.object.metadata.splash_image.url})`
+      styles.header.backgroundSize = 'cover'
+      styles.header.backgroundPosition = 'center'
     }
     return (
       <Layout
         siteTitle={pageData.layout.object.metadata.site_title}
         siteLogo={pageData.layout.object.metadata.site_logo}
-        headerBreakpoint={window.innerHeight / 3}
+        headerBreakpoint={headerBreakpoint}
       >
         <SEO title="Work" />
         <section className="page-container work">
@@ -54,18 +72,35 @@ class Work extends React.Component {
             </div>
           </header>
           <section className="section-container work">
-            {pageData.page.object.metadata.services.map(service => (
+            {services.map(service => (
               <div
                 className="service-container"
                 style={styles.serviceContainer}
                 key={service.name}
               >
+                {service.imageUrl
+                  ? <div>
+                    {services.length % (services.indexOf(service) + 1)
+                      ? <img src={service.imageUrl} alt="service image" />
+                      : null
+                    }
+                  </div>
+                  : null
+                }
                 <div style={styles.serviceDetails}>
                   {service.icon ? <Icon icon={service.icon} /> : null}
-                  <h5>{service.name}</h5>
-                  <p>{service.description}</p>
+                  <h5 style={styles.detailsName}>{service.name}</h5>
+                  <p style={styles.detailsDesc}>{service.description}</p>
                 </div>
-                {service.imageUrl ? <img src={service.imageUrl} /> : null}
+                {service.imageUrl
+                  ? <div>
+                    {!services.length % (services.indexOf(service) + 1)
+                      ? <img src={service.imageUrl} alt="service image" />
+                      : null
+                    }
+                  </div>
+                  : null
+                }
               </div>
             ))}
           </section>

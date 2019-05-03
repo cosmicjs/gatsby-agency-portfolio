@@ -42,6 +42,10 @@ class IndexPage extends React.Component {
 
   render() {
     const pageData = this.props.data
+    let headerBreakpoint
+    if (typeof window !== 'undefined') {
+      headerBreakpoint = window.innerHeight - 125
+    }
     const styles = {
       splash: {
         background: `#000000`,
@@ -90,7 +94,7 @@ class IndexPage extends React.Component {
       <Layout
         siteTitle={pageData.layout.object.metadata.site_title}
         siteLogo={pageData.layout.object.metadata.site_logo}
-        headerBreakpoint={window.innerHeight - 125}
+        headerBreakpoint={headerBreakpoint}
       >
         <SEO title="Home" keywords={[`cosmic js`, `application`, `react`]} />
         <section style={styles.splash} className="section-container splash">

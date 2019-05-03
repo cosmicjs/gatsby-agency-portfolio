@@ -1,26 +1,49 @@
 import React from "react"
 import PropTypes from "prop-types"
-import { Link, graphql } from "gatsby"
+import { graphql } from "gatsby"
 
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 
 class About extends React.Component {
-
   render() {
     const pageData = this.props.data
+    let headerBreakpoint
+    if (typeof window !== 'undefined') {
+      headerBreakpoint = window.innerHeight / 3
+    }
+    const styles = {
+      headerFilter: {
+        backgroundColor: 'rgba(0,0,0,0.6)',
+        color: 'white',
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }
+    }
+
     return (
       <Layout
         siteTitle={pageData.layout.object.metadata.site_title}
         siteLogo={pageData.layout.object.metadata.site_logo}
-        headerBreakpoint={window.innerHeight / 2}
+        headerBreakpoint={headerBreakpoint}
       >
         <SEO title="About" />
-        <section className="section-container">
-          <h1>This is the About page</h1>
-          <Link to="/">
-            Go back to the homepage
-         </Link>
+        <section className="page-container about">
+          <header className="page-header about">
+            <div style={styles.headerFilter}>
+              <h3>Who We Are</h3>
+              {pageData.page.object.metadata.description
+                ? <p className="page-header-description">{pageData.page.object.metadata.description}</p>
+                : null
+              }
+            </div>
+          </header>
+          <section className="section-container about">
+            Test
+          </section>
         </section>
       </Layout>
     )

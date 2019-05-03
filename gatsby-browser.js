@@ -4,4 +4,5 @@
  * See: https://www.gatsbyjs.org/docs/browser-apis/
  */
 
-// You can delete this file if you're not using it
+// require('rsuite/dist/styles/rsuite.min.css');
+require('rsuite/styles/less/index.less');
