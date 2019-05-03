@@ -10,7 +10,11 @@ class About extends React.Component {
   render() {
     const pageData = this.props.data
     return (
-      <Layout siteTitle={pageData.layout.object.metadata.site_title} siteLogo={pageData.layout.object.metadata.site_logo}>
+      <Layout
+        siteTitle={pageData.layout.object.metadata.site_title}
+        siteLogo={pageData.layout.object.metadata.site_logo}
+        headerBreakpoint={window.innerHeight / 2}
+      >
         <SEO title="About" />
         <section className="section-container">
           <h1>This is the About page</h1>

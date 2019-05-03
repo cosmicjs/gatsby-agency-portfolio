@@ -15,7 +15,11 @@ class Header extends React.Component {
 
   componentWillMount() {
     if (typeof window !== 'undefined') {
-      this.setState({ activeKey: window.location.pathname })
+      if (window.location.hash) {
+        this.setState({ activeKey: window.location.hash })
+      } else {
+        this.setState({ activeKey: window.location.pathname })
+      }
     }
   }
 
@@ -84,32 +88,28 @@ class Header extends React.Component {
         <Navbar.Body>
           <Nav>
             <Nav.Item
-              eventKey={'work'}
-              onSelect={this.handleSelect}
+              className={this.state.activeKey.includes('work') ? 'active' : ''}
               componentClass={Link}
               to="/work"
             >
               Work
             </Nav.Item>
             <Nav.Item
-              eventKey={'projects'}
-              onSelect={this.handleSelect}
+              className={this.state.activeKey.includes('projects') ? 'active' : ''}
               componentClass={Link}
               to="/projects"
             >
               Projects
             </Nav.Item>
             <Nav.Item
-              eventKey={'about'}
-              onSelect={this.handleSelect}
+              className={this.state.activeKey.includes('about') ? 'active' : ''}
               componentClass={Link}
               to="/about"
             >
               About
             </Nav.Item>
             <Nav.Item
-              eventKey={'contact'}
-              onSelect={this.handleSelect}
+              className={this.state.activeKey.includes('contact') ? 'active' : ''}
               componentClass={Link}
               to="/#contact"
             >
@@ -122,7 +122,11 @@ class Header extends React.Component {
   }
 
   handleScroll() {
-    if (window.scrollY > window.innerHeight - 125) {
+    let breakpoint = window.innerHeight / 2
+    if (this.props.breakpoint) {
+      breakpoint = this.props.breakpoint
+    }
+    if (window.scrollY > breakpoint) {
       this.setState({
         scrollTop: false,
       })
@@ -132,15 +136,12 @@ class Header extends React.Component {
       })
     }
   }
-
-  handleSelect(activeKey) {
-    this.setState({ activeKey: activeKey })
-  }
 }
 
 Header.propTypes = {
   siteTitle: PropTypes.string,
   logo: PropTypes.object,
+  breakpoint: PropTypes.number,
 }
 
 Header.defaultProps = {

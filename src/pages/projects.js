@@ -10,14 +10,18 @@ class Projects extends React.Component {
   render() {
     const pageData = this.props.data
     return (
-      <Layout siteTitle={pageData.layout.object.metadata.site_title} siteLogo={pageData.layout.object.metadata.site_logo}>
+      <Layout
+        siteTitle={pageData.layout.object.metadata.site_title}
+        siteLogo={pageData.layout.object.metadata.site_logo}
+        headerBreakpoint={window.innerHeight / 2}
+      >
         <SEO title="Projects" />
         <section className="page-container">
           <header className="page-header projects">
-            <h3>See What We Do</h3>
+            <h3>Browse our work</h3>
           </header>
           <div className="project-gallery">
-
+            <p>test</p>
           </div>
         </section>
       </Layout>

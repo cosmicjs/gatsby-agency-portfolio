@@ -87,7 +87,11 @@ class IndexPage extends React.Component {
       styles.splash.backgroundPosition = 'center'
     }
     return (
-      <Layout siteTitle={pageData.layout.object.metadata.site_title} siteLogo={pageData.layout.object.metadata.site_logo}>
+      <Layout
+        siteTitle={pageData.layout.object.metadata.site_title}
+        siteLogo={pageData.layout.object.metadata.site_logo}
+        headerBreakpoint={window.innerHeight - 125}
+      >
         <SEO title="Home" keywords={[`cosmic js`, `application`, `react`]} />
         <section style={styles.splash} className="section-container splash">
           {pageData.page.object.metadata.splash_phrase

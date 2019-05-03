@@ -673,8 +673,22 @@ pre tt:after {
   font-size: 2.5rem;
   margin: 50px;
 }
+.page-header-description {
+  font-size: 1rem;
+  width: 50%;
+  max-width: 600px;
+  text-align: center;
+}
 .rs-nav-item {
   margin: 0;
+  text-shadow: 0px 0px 0.7px white;
+}
+.rs-nav-item-content {
+  font-size: 1rem !important;
+  color: #777777 !important;
+}
+.rs-nav-item.active span {
+  color: #34c3ff;
 }
 
 @media only screen and (max-width: 480px) {

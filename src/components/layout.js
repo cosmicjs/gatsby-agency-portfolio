@@ -26,10 +26,10 @@ const layoutStyle = {
   }
 }
 
-const Layout = ({ children, siteTitle, siteLogo }) => {
+const Layout = ({ children, siteTitle, siteLogo, headerBreakpoint }) => {
   return (
     <Container>
-      <Header siteTitle={siteTitle} logo={siteLogo} />
+      <Header siteTitle={siteTitle} logo={siteLogo} breakpoint={headerBreakpoint} />
       <main style={layoutStyle.main}>{children}</main>
       <footer style={layoutStyle.footer}>
         <span>
@@ -44,7 +44,8 @@ const Layout = ({ children, siteTitle, siteLogo }) => {
 Layout.propTypes = {
   children: PropTypes.node.isRequired,
   siteTitle: PropTypes.string.isRequired,
-  siteLogo: PropTypes.string.isRequired,
+  siteLogo: PropTypes.object.isRequired,
+  headerBreakpoint: PropTypes.number,
 }
 
 export default Layout
