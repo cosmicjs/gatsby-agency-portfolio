@@ -12,17 +12,7 @@ class About extends React.Component {
     if (typeof window !== 'undefined') {
       headerBreakpoint = window.innerHeight / 3
     }
-    const styles = {
-      headerFilter: {
-        backgroundColor: 'rgba(0,0,0,0.6)',
-        color: 'white',
-        height: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-      }
-    }
+    // const styles = {}
 
     return (
       <Layout
@@ -33,7 +23,7 @@ class About extends React.Component {
         <SEO title="About" />
         <section className="page-container about">
           <header className="page-header about">
-            <div style={styles.headerFilter}>
+            <div className="header-filter">
               <h3>Who We Are</h3>
               {pageData.page.object.metadata.description
                 ? <p className="page-header-description">{pageData.page.object.metadata.description}</p>

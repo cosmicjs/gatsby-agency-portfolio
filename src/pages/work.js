@@ -39,15 +39,6 @@ class Work extends React.Component {
         fontSize: '1.5rem',
         textAlign: 'center',
       },
-      headerFilter: {
-        backgroundColor: 'rgba(0,0,0,0.6)',
-        color: 'white',
-        height: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-      }
     }
     if (pageData.page.object.metadata.splash_image) {
       styles.header.background = `url(${pageData.page.object.metadata.splash_image.url})`
@@ -63,7 +54,7 @@ class Work extends React.Component {
         <SEO title="Work" />
         <section className="page-container work">
           <header className="page-header work" style={styles.header}>
-            <div style={styles.headerFilter}>
+            <div className="header-filter">
               <h3>What we do</h3>
               {pageData.page.object.metadata.description
                 ? <p className="page-header-description">{pageData.page.object.metadata.description}</p>
@@ -90,7 +81,7 @@ class Work extends React.Component {
                 <div style={styles.serviceDetails}>
                   {service.icon ? <Icon icon={service.icon} /> : null}
                   <h5 style={styles.detailsName}>{service.name}</h5>
-                  <p style={styles.detailsDesc}>{service.description}</p>
+                  <p style={styles.detailsDesc}>{service.summary}</p>
                 </div>
                 {service.imageUrl
                   ? <div>

@@ -155,6 +155,7 @@ class IndexPage extends React.Component {
             <div className="contact-container">
               <div className="imageFilter" />
               <h2 className="section-title">Contact Us</h2>
+              <p>Fill out the form below if want to get a hold of us.</p>
               <form style={styles.contactForm} onSubmit={this.handleContactForm}>
                 <Collapse in={this.state.messageError}>
                   <Message type="error" title="Error" description="Please Provide a valid input to all fields" />

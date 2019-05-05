@@ -22,7 +22,9 @@ class Projects extends React.Component {
         <SEO title="Projects" />
         <section className="page-container">
           <header className="page-header projects">
-            <h3>Browse our work</h3>
+            <div className="header-filter">
+              <h3>Browse our work</h3>
+            </div>
           </header>
           <div className="project-gallery">
             <p>test</p>

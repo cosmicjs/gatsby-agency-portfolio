@@ -56,7 +56,7 @@ class Header extends React.Component {
         height: '100%',
       },
       link: {
-        color: `#2C2B3B`,
+        color: `#728f99`,
         textShadow: '0px 0px 1px #ffffff',
         margin: '0 0 0 30px',
         textDecoration: `none`,
