@@ -15,27 +15,33 @@ class ProjectDisplay extends React.Component {
   render() {
     let styles = {
       container: {
-        margin: '50px 10px',
+        margin: '10px 0 0 10px',
         minWidth: '400px',
         minHeight: '400px',
         height: '400px',
-        overflow: 'hidden'
+        overflow: 'hidden',
+        textDecoration: 'none'
       },
       details: {
         height: '400px',
         width: '400px',
+        padding: '30px',
         opacity: '0',
+        color: '#d3d3d3',
         background: 'rgba(0, 0, 0, 0.6)',
         position: 'relative',
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'center',
-        alignItem: 'center',
+        justifyContent: 'flex-end',
+        alignItems: 'flex-start',
         transition: '0.3s ease-in-out'
       },
       title: {
         fontSize: '2rem',
         alignText: 'center',
+      },
+      description: {
+        fontSize: '1rem',
       }
     }
     if (this.props.image) {
@@ -56,7 +62,7 @@ class ProjectDisplay extends React.Component {
       >
         <div style={styles.details}>
           <h5 style={styles.title}>{this.props.title}</h5>
-          <p>{this.props.description}</p>
+          <p style={styles.description}>{this.props.description}</p>
         </div>
       </Link>
     )

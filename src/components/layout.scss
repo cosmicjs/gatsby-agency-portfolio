@@ -650,8 +650,8 @@ pre tt:after {
   }
 }
 .section-container.bottom {
-  min-height: 50vh;
-  max-height: 50vh;
+  min-height: 60vh;
+  max-height: 60vh;
 }
 .section-wrapper {
   padding: 20px;
@@ -664,9 +664,13 @@ pre tt:after {
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-  overflow-x: auto;
+  flex-wrap: wrap;
 }
-.wrapper-content.project {
+.wrapper-content.services {
+  justify-content: center;
+}
+.wrapper-content.projects {
+  width: auto;
   height: auto;
 }
 .section-title {
@@ -690,6 +694,7 @@ pre tt:after {
 }
 .rs-icon {
   font-size: 200% !important;
+  margin-bottom: 20px;
 }
 .rs-nav-item {
   margin: 0;

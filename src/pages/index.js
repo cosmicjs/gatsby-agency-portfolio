@@ -66,6 +66,22 @@ class IndexPage extends React.Component {
         alignItems: 'flex-start',
         transition: '0.4s ease-in-out'
       },
+      header: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+      },
+      title: {
+        paddingRight: '50px',
+        marginRight: '100px',
+        borderRight: 'thin solid black'
+      },
+      description: {
+        maxWidth: '400px',
+        fontSize: '1.25rem',
+        margin: '0',
+      },
       contactForm: {
         display: 'flex',
         flexDirection: 'column',
@@ -80,12 +96,34 @@ class IndexPage extends React.Component {
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'flex-start',
+        alignItems: 'flex-start',
+        overflowX: 'auto',
+        color: 'black',
+      },
+      serviceName: {
+        fontSize: '1rem',
+      },
+      person: {
+        maxWidth: '25%',
+        padding: '10px',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
         alignItems: 'center',
+        textDecoration: 'none'
+      },
+      personName: {
+        marginTop: '0',
+        color: 'black',
+        fontSize: '1rem'
+      },
+      personTitle: {
+        color: 'grey',
+        fontSize: '0.8rem',
       }
     }
     if (pageData.page.object.metadata.splash_image) {
       styles.splash.background = `url(${pageData.page.object.metadata.splash_image.url})`
-      // styles.splash.backgroundAttachment = 'fixed'
       styles.splash.backgroundSize = `cover`
       styles.splash.backgroundRepeat = 'no-repeat'
       styles.splash.backgroundPosition = 'center'
@@ -94,6 +132,7 @@ class IndexPage extends React.Component {
       <Layout
         siteTitle={pageData.layout.object.metadata.site_title}
         siteLogo={pageData.layout.object.metadata.site_logo}
+        connect={pageData.layout.object.metadata.connect}
         headerBreakpoint={headerBreakpoint}
       >
         <SEO title="Home" keywords={[`cosmic js`, `application`, `react`]} />
@@ -108,7 +147,19 @@ class IndexPage extends React.Component {
         <section style={styles.work} className="section-container content work">
           <Fade in={this.state.showWork}>
             <div className="section-wrapper">
-              <h2 className="section-title">What We Do</h2>
+              <div className="section-header" style={styles.header}>
+                <h2 className="section-title" style={styles.title}>What We Do</h2>
+                <p className="people-description" style={styles.description}>{pageData.page.object.metadata.description}</p>
+              </div>
+              <div className="wrapper-content services">
+                {pageData.page.object.metadata.services.map(service => (
+                  <Link to="/work" key={service.name} style={styles.service}>
+                    <Icon icon={service.icon} />
+                    <h5 style={styles.serviceName}>{service.name}</h5>
+                    <p>{service.description}</p>
+                  </Link>
+                ))}
+              </div>
               <div className="wrapper-content projects">
                 {pageData.page.object.metadata.showcase.map(project => (
                   <ProjectDisplay
@@ -119,30 +170,23 @@ class IndexPage extends React.Component {
                   />
                 ))}
               </div>
-              <div className="wrapper-content services">
-                {pageData.page.object.metadata.services.map(service => (
-                  <Link to="/work" key={service.name} style={styles.service}>
-                    <Icon icon={service.icon} />
-                    <h5>{service.name}</h5>
-                    <p>{service.description}</p>
-                  </Link>
-                ))}
-              </div>
             </div>
           </Fade>
         </section>
         <section className="section-container content people">
           <Fade in={this.state.showPeople}>
             <div className="section-wrapper">
-              <h2 className="section-title">Who We Are</h2>
+              <div style={styles.header}>
+                <h2 className="section-title" style={styles.title}>Who We Are</h2>
+                <p style={styles.description}>Meet our talented Team</p>
+              </div>
               <div className="wrapper-content people">
-                <p className="people-description">{pageData.page.object.metadata.description}</p>
                 {pageData.page.object.metadata.people.map(person => {
                   return (
-                    <Link key={person.name} to="/about">
-                      <h5>{person.name}</h5>
-                      <h6>{person.title}</h6>
+                    <Link key={person.name} to="/about" style={styles.person}>
                       <img alt={person.name} src={person.imageUrl} />
+                      <h5 style={styles.personName}>{person.name}</h5>
+                      <h6 style={styles.personTitle}>{person.title}</h6>
                     </Link>
                   )
                 })}
@@ -154,8 +198,10 @@ class IndexPage extends React.Component {
           <Fade in={this.state.showContact}>
             <div className="contact-container">
               <div className="imageFilter" />
-              <h2 className="section-title">Contact Us</h2>
-              <p>Fill out the form below if want to get a hold of us.</p>
+              <div style={styles.header}>
+                <h2 className="section-title" style={styles.title}>Contact Us</h2>
+                <p style={styles.description}>Fill out the form below if you would like to get a hold of us.</p>
+              </div>
               <form style={styles.contactForm} onSubmit={this.handleContactForm}>
                 <Collapse in={this.state.messageError}>
                   <Message type="error" title="Error" description="Please Provide a valid input to all fields" />
@@ -195,7 +241,7 @@ class IndexPage extends React.Component {
     } else {
       this.setState({ showPeople: false })
     }
-    if (window.scrollY >= (window.innerHeight / 2.5) + (2 * window.innerHeight + 100)) {
+    if (window.scrollY >= (window.innerHeight / 2.5) + (2 * window.innerHeight + 50)) {
       this.setState({ showContact: true, showPeople: false })
     } else {
       this.setState({ showContact: false })
