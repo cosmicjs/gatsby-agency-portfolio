@@ -56,7 +56,7 @@ class Work extends React.Component {
         <section className="page-container work">
           <header className="page-header work" style={styles.header}>
             <div className="header-filter">
-              <h3>What we do</h3>
+              <h3>What We Do</h3>
               {pageData.page.object.metadata.description
                 ? <p className="page-header-description">{pageData.page.object.metadata.description}</p>
                 : null
@@ -80,7 +80,7 @@ class Work extends React.Component {
                   : null
                 }
                 <div style={styles.serviceDetails}>
-                  {service.icon ? <Icon icon={service.icon} /> : null}
+                  {service.icon ? <Icon icon={service.icon} size="4x" /> : null}
                   <h5 style={styles.detailsName}>{service.name}</h5>
                   <p style={styles.detailsDesc}>{service.summary}</p>
                 </div>

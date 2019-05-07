@@ -14,8 +14,11 @@ class IndexPage extends React.Component {
   constructor() {
     super()
     this.state = {
+      workHeight: 0,
       showWork: false,
+      peopleHeight: 0,
       showPeople: false,
+      contactHeight: 0,
       showContact: false,
       userName: '',
       userEmail: '',
@@ -30,6 +33,10 @@ class IndexPage extends React.Component {
 
   componentDidMount() {
     window.addEventListener('scroll', this.handleScroll)
+    const workHeight = this.workElement.clientHeight
+    const peopleHeight = this.peopleElement.clientHeight
+    const contactHeight = this.contactElement.clientHeight
+    this.setState({ workHeight, peopleHeight, contactHeight })
   }
   componentDidUpdate() {
     if (this.state.messageError) {
@@ -64,7 +71,7 @@ class IndexPage extends React.Component {
         flexDirection: 'column',
         justifyContent: 'flex-start',
         alignItems: 'flex-start',
-        transition: '0.4s ease-in-out'
+        transition: '0.25s ease-in-out'
       },
       header: {
         display: 'flex',
@@ -101,7 +108,11 @@ class IndexPage extends React.Component {
         color: 'black',
       },
       serviceName: {
-        fontSize: '1rem',
+        fontSize: '1.2rem',
+      },
+      serviceDescription: {
+        fontSize: '0.9rem',
+        color: '#a9a9a9',
       },
       person: {
         maxWidth: '25%',
@@ -144,19 +155,23 @@ class IndexPage extends React.Component {
             : null
           }
         </section>
-        <section style={styles.work} className="section-container content work">
+        <section
+          ref={el => { this.workElement = el }}
+          style={styles.work}
+          className="section-container content work"
+        >
           <Fade in={this.state.showWork}>
             <div className="section-wrapper">
               <div className="section-header" style={styles.header}>
                 <h2 className="section-title" style={styles.title}>What We Do</h2>
-                <p className="people-description" style={styles.description}>{pageData.page.object.metadata.description}</p>
+                <p className="people-description" style={styles.description}>{pageData.page.object.metadata.service_description}</p>
               </div>
               <div className="wrapper-content services">
                 {pageData.page.object.metadata.services.map(service => (
-                  <Link to="/work" key={service.name} style={styles.service}>
-                    <Icon icon={service.icon} />
+                  <Link to="/work" key={service.name} className="service-link" style={styles.service}>
+                    <Icon size="3x" icon={service.icon} />
                     <h5 style={styles.serviceName}>{service.name}</h5>
-                    <p>{service.description}</p>
+                    <p style={styles.serviceDescription}>{service.description}</p>
                   </Link>
                 ))}
               </div>
@@ -173,12 +188,15 @@ class IndexPage extends React.Component {
             </div>
           </Fade>
         </section>
-        <section className="section-container content people">
+        <section
+          ref={el => { this.peopleElement = el }}
+          className="section-container content people"
+        >
           <Fade in={this.state.showPeople}>
             <div className="section-wrapper">
               <div style={styles.header}>
                 <h2 className="section-title" style={styles.title}>Who We Are</h2>
-                <p style={styles.description}>Meet our talented Team</p>
+                <p style={styles.description}>{pageData.page.object.metadata.people_description}</p>
               </div>
               <div className="wrapper-content people">
                 {pageData.page.object.metadata.people.map(person => {
@@ -194,7 +212,11 @@ class IndexPage extends React.Component {
             </div>
           </Fade>
         </section>
-        <section name="contact" className="section-container content bottom contact" >
+        <section
+          ref={el => { this.contactElement = el }}
+          name="contact"
+          className="section-container content bottom contact"
+        >
           <Fade in={this.state.showContact}>
             <div className="contact-container">
               <div className="imageFilter" />
@@ -231,17 +253,17 @@ class IndexPage extends React.Component {
   }
 
   handleScroll() {
-    if (window.scrollY >= (window.innerHeight / 2) + 150) {
+    if (window.scrollY >= (window.innerHeight / 2) + 100) {
       this.setState({ showWork: true })
     } else {
       this.setState({ showWork: false })
     }
-    if (window.scrollY >= (window.innerHeight / 2.5) + (window.innerHeight + 200)) {
+    if (window.scrollY >= (window.innerHeight + this.state.workHeight - (this.state.workHeight / 2.5))) {
       this.setState({ showPeople: true, showWork: false })
     } else {
       this.setState({ showPeople: false })
     }
-    if (window.scrollY >= (window.innerHeight / 2.5) + (2 * window.innerHeight + 50)) {
+    if (window.scrollY >= (window.innerHeight + this.state.workHeight + this.state.peopleHeight - (this.state.peopleHeight / 2.5))) {
       this.setState({ showContact: true, showPeople: false })
     } else {
       this.setState({ showContact: false })

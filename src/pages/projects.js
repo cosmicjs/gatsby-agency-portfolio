@@ -1,17 +1,52 @@
 import React from "react"
 import PropTypes from 'prop-types'
 import { graphql } from "gatsby"
+import { Modal } from 'rsuite'
 
+import ProjectDisplay from '../components/projectDisplay.js'
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 
 class Projects extends React.Component {
+  constructor() {
+    super()
+    this.state = {
+      selectedProject: {},
+      modalOpen: false
+    }
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    const tempState = state
+    const list = props.data.page.object.metadata.list
+    let projectName
+    if (typeof window !== "undefined") {
+      projectName = decodeURI(window.location.search).substring(1)
+    }
+    for (const i in list) {
+      if (list[i].name === projectName) {
+        tempState.selectedProject = list[i]
+        tempState.modalOpen = true
+      }
+    }
+    return tempState
+  }
 
   render() {
     const pageData = this.props.data
     let headerBreakpoint
     if (typeof window !== 'undefined') {
       headerBreakpoint = window.innerHeight / 3
+    }
+    const styles = {
+      header: {
+        padding: '0',
+      },
+    }
+    if (pageData.page.object.metadata.splash_image) {
+      styles.header.background = `url(${pageData.page.object.metadata.splash_image.url})`
+      styles.header.backgroundSize = 'cover'
+      styles.header.backgroundPosition = 'center'
     }
     return (
       <Layout
@@ -22,17 +57,55 @@ class Projects extends React.Component {
       >
         <SEO title="Projects" />
         <section className="page-container">
-          <header className="page-header projects">
+          <header className="page-header projects" style={styles.header}>
             <div className="header-filter">
-              <h3>Browse our work</h3>
+              <h3>Check Out Our Work</h3>
+              <p className="page-header-description">{pageData.page.object.metadata.summary}</p>
             </div>
           </header>
           <div className="project-gallery">
-            <p>test</p>
+            {pageData.page.object.metadata.list.map(project => {
+              return (
+                <ProjectDisplay
+                  key={project.name}
+                  title={project.name}
+                  description={project.summary}
+                  image={project.image}
+                  size="tall"
+                />
+              )
+            })}
           </div>
+          <Modal style={{ top: '100px' }} show={this.state.modalOpen} onHide={this.handleClose}>
+            <Modal.Header>
+              <Modal.Title>{this.state.selectedProject.name}</Modal.Title>
+              <p>{this.state.selectedProject.date}</p>
+            </Modal.Header>
+            {this.state.selectedProject.name
+              ? <Modal.Body>
+                {this.state.selectedProject.description}
+                <div className="modal-gallery" style={{ marginTop: '15px' }}>
+                  {this.state.selectedProject.gallery.map(imageUrl => (
+                    <img
+                      key={imageUrl}
+                      alt={this.state.selectedProject.name}
+                      src={imageUrl}
+                    />
+                  ))}
+                </div>
+              </Modal.Body>
+              : null
+            }
+          </Modal>
         </section>
       </Layout>
     )
+  }
+
+  handleClose() {
+    if (typeof window !== 'undefined') {
+      window.location.href = window.location.protocol + window.location.pathname
+    }
   }
 }
 
@@ -54,7 +127,7 @@ export const query = graphql`
 `
 
 Projects.propTypes = {
-  data: PropTypes.object,
+  data: PropTypes.object.isRequired,
 }
 
 export default Projects

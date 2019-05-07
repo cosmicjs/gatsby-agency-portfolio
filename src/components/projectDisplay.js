@@ -20,7 +20,7 @@ class ProjectDisplay extends React.Component {
         minHeight: '400px',
         height: '400px',
         overflow: 'hidden',
-        textDecoration: 'none'
+        textDecoration: 'none',
       },
       details: {
         height: '400px',
@@ -34,6 +34,7 @@ class ProjectDisplay extends React.Component {
         flexDirection: 'column',
         justifyContent: 'flex-end',
         alignItems: 'flex-start',
+        overflowY: 'auto',
         transition: '0.3s ease-in-out'
       },
       title: {
@@ -49,13 +50,17 @@ class ProjectDisplay extends React.Component {
       styles.container.backgroundSize = 'cover'
       styles.container.backgroundPosition = 'center'
     }
+    if (this.props.size === 'tall') {
+      styles.container.height = '600px'
+      styles.details.height = '600px'
+    }
     if (this.state.hover) {
       styles.details.opacity = '1'
     }
 
     return (
       <Link
-        to='/projects'
+        to={`/projects?${encodeURI(this.props.title)}`}
         style={styles.container}
         onMouseEnter={this.handleHover}
         onMouseLeave={this.handleUnHover}
@@ -80,6 +85,7 @@ ProjectDisplay.propTypes = {
   title: PropTypes.string,
   description: PropTypes.string,
   image: PropTypes.string,
+  size: PropTypes.string,
 }
 
 export default ProjectDisplay
