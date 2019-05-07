@@ -26,17 +26,19 @@ class IndexPage extends React.Component {
       messageSubject: '',
       messageError: false,
     }
+    this.updateDimensions = this.updateDimensions.bind(this)
     this.handleScroll = this.handleScroll.bind(this)
     this.handleContactForm = this.handleContactForm.bind(this)
     this.handleInput = this.handleInput.bind(this)
   }
 
   componentDidMount() {
-    window.addEventListener('scroll', this.handleScroll)
     const workHeight = this.workElement.clientHeight
     const peopleHeight = this.peopleElement.clientHeight
     const contactHeight = this.contactElement.clientHeight
     this.setState({ workHeight, peopleHeight, contactHeight })
+    window.addEventListener('scroll', this.handleScroll)
+    window.addEventListener("resize", this.updateDimensions)
   }
   componentDidUpdate() {
     if (this.state.messageError) {
@@ -45,6 +47,7 @@ class IndexPage extends React.Component {
   }
   componentWillUnmount() {
     window.removeEventListener('scroll', this.handleScroll)
+    window.removeEventListener("resize", this.updateDimensions)
   }
 
   render() {
@@ -250,6 +253,14 @@ class IndexPage extends React.Component {
         </section>
       </Layout>
     )
+  }
+
+  updateDimensions() {
+    this.setState({
+      workHeight: this.workElement.clientHeight,
+      peopleHeight: this.peopleElement.clientHeight,
+      contactHeight: this.contactElement.clientHeight,
+    })
   }
 
   handleScroll() {
