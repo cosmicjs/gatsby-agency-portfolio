@@ -141,7 +141,7 @@ class Work extends React.Component {
                   style={styles.serviceContainer}
                 >
                   <div style={styles.serviceDetails}>
-                    {service.icon ? <Icon icon={service.icon} size="4x" /> : null}
+                    {service.icon ? <Icon icon={service.icon} size="3x" /> : null}
                     <h5 style={styles.detailsName}>{service.name}</h5>
                     <p style={styles.detailsDesc}>{service.summary}</p>
                   </div>
