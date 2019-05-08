@@ -111,6 +111,7 @@ class Work extends React.Component {
         siteTitle={pageData.layout.object.metadata.site_title}
         siteLogo={pageData.layout.object.metadata.site_logo}
         connect={pageData.layout.object.metadata.connect}
+        contact={pageData.layout.object.metadata.contact}
         headerBreakpoint={headerBreakpoint}
       >
         <SEO title="Work" />

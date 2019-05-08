@@ -12,7 +12,7 @@ import { Container, Icon } from 'rsuite'
 import Header from "./header"
 import "./layout.scss"
 
-const Layout = ({ children, siteTitle, siteLogo, connect, headerBreakpoint }) => {
+const Layout = ({ children, siteTitle, siteLogo, contact, connect, headerBreakpoint }) => {
   const styles = {
     main: {
       minheight: 'calc(100vh - 185px)',
@@ -49,6 +49,16 @@ const Layout = ({ children, siteTitle, siteLogo, connect, headerBreakpoint }) =>
       <Header siteTitle={siteTitle} logo={siteLogo} breakpoint={headerBreakpoint} />
       <main style={styles.main}>{children}</main>
       <footer style={styles.footer}>
+        {contact
+          ? <div>
+            <h6>{contact.address1}</h6>
+            <h6>{contact.address2}</h6>
+            <h6>{`${contact.city} ${contact.region}, ${contact.postalCode}`}</h6>
+            <h6>{`Phone: ${contact.phone}`}</h6>
+            <h6>{`Email: ${contact.email}`}</h6>
+          </div>
+          : null
+        }
         <span style={styles.span}>
           © {new Date().getFullYear()}, Built with <a href="https://www.gatsbyjs.org">&nbsp;Gatsby</a>
           <a style={{ height: '35px', margin: '0 20px' }} href="https://cosmicjs.com/add-bucket?import_bucket=5cbf745a10d5c22da1f9b3e2"><img src="https://s3-us-west-2.amazonaws.com/cosmicjs/51fe54d0-4f6e-11e9-9f32-8d001da69630-powered-by-cosmicjs.svg" /></a>
@@ -74,6 +84,7 @@ Layout.propTypes = {
   children: PropTypes.node.isRequired,
   siteTitle: PropTypes.string,
   siteLogo: PropTypes.object,
+  contact: PropTypes.object,
   connect: PropTypes.array,
   headerBreakpoint: PropTypes.number,
 }

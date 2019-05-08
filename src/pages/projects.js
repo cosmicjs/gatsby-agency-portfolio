@@ -59,6 +59,7 @@ class Projects extends React.Component {
       <Layout
         siteTitle={pageData.layout.object.metadata.site_title}
         siteLogo={pageData.layout.object.metadata.site_logo}
+        contact={pageData.layout.object.metadata.contact}
         connect={pageData.layout.object.metadata.connect}
         headerBreakpoint={headerBreakpoint}
       >
