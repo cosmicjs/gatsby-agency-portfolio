@@ -74,7 +74,6 @@ class IndexPage extends React.Component {
         flexDirection: 'column',
         justifyContent: 'flex-start',
         alignItems: 'flex-start',
-        transition: '0.25s ease-in-out'
       },
       header: {
         display: 'flex',

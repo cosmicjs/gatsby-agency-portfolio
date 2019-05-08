@@ -627,6 +627,23 @@ pre tt:after {
     margin: 15px 0 0 15px;
   }
 }
+.section-container.medium {
+  min-height: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.section-container.short {
+  min-height: 200px;
+}
+.section-container.row{
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.section-container.bottom {
+  min-height: 60vh;
+  max-height: 60vh;
+}
 .content {
   max-width: 1000px;
   margin-left: auto;
@@ -649,10 +666,6 @@ pre tt:after {
     font-size: 300%;
     text-align: center;
   }
-}
-.section-container.bottom {
-  min-height: 60vh;
-  max-height: 60vh;
 }
 .section-wrapper {
   padding: 20px;
