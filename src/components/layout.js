@@ -51,11 +51,11 @@ const Layout = ({ children, siteTitle, siteLogo, contact, connect, headerBreakpo
       <footer style={styles.footer}>
         {contact
           ? <div>
-            <h6>{contact.address1}</h6>
-            <h6>{contact.address2}</h6>
-            <h6>{`${contact.city} ${contact.region}, ${contact.postalCode}`}</h6>
-            <h6>{`Phone: ${contact.phone}`}</h6>
-            <h6>{`Email: ${contact.email}`}</h6>
+            <h6 style={{ marginBottom: '10px' }}>{contact.address1}</h6>
+            <h6 style={{ marginBottom: '10px' }}>{contact.address2}</h6>
+            <h6 style={{ marginBottom: '10px' }}>{`${contact.city} ${contact.region}, ${contact.postalCode}`}</h6>
+            <h6 style={{ marginBottom: '10px' }}>{`Phone: ${contact.phone}`}</h6>
+            <h6 style={{ marginBottom: '10px' }}>{`Email: ${contact.email}`}</h6>
           </div>
           : null
         }
