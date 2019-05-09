@@ -2,17 +2,18 @@ import React from "react"
 import PropTypes from 'prop-types'
 import { graphql } from "gatsby"
 
-import { Icon, Popover, Whisper } from 'rsuite'
+import { Icon, IconButton } from 'rsuite'
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 
-const Speaker = ({ title, content }) => (
-  <Popover title={title}>
-    <p>{content}</p>
-  </Popover>
-)
-
 class Work extends React.Component {
+  constructor() {
+    super()
+    this.state = {
+      activeIndex: null
+    }
+    this.handleServiceClick = this.handleServiceClick.bind(this)
+  }
 
   render() {
     const pageData = this.props.data.cosmicjsPages.metadata
@@ -66,13 +67,34 @@ class Work extends React.Component {
         width: '75%',
         margin: '10px auto',
       },
-      serviceContainer: {
-        height: '200px',
-        width: "25%",
+      serviceContainer: (i) => {
+        if (this.state.activeIndex === i) {
+          return {
+            height: 'auto',
+            width: "25%",
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'center',
+            cursor: 'pointer',
+            boxShadow: '0 0 2px gray',
+          }
+        } else {
+          return {
+            height: '200px',
+            width: "25%",
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'center',
+            cursor: 'pointer',
+          }
+        }
+      },
+      serviceExtra: {
+        margin: '30px auto',
         display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'center',
-        cursor: 'pointer',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        alignItems: 'center',
       },
       serviceDetails: {
         padding: '15px',
@@ -132,22 +154,28 @@ class Work extends React.Component {
           </section>
           <section className="section-container services medium" style={styles.serviceList}>
             {serviceData.map(service => (
-              <Whisper
+              <div
                 key={service.node.title}
-                trigger="click"
-                speaker={<Speaker title={service.node.title} content={service.node.metadata.description} />}
+                className="service-container"
+                style={styles.serviceContainer(serviceData.indexOf(service))}
               >
-                <div
-                  className="service-container"
-                  style={styles.serviceContainer}
-                >
-                  <div style={styles.serviceDetails}>
-                    {service.node.metadata.icon ? <Icon icon={service.node.metadata.icon} size="3x" /> : null}
-                    <h5 style={styles.detailsName}>{service.node.title}</h5>
-                    <p style={styles.detailsDesc}>{service.node.metadata.summary}</p>
-                  </div>
+                <div style={styles.serviceDetails}>
+                  {service.node.metadata.icon ? <Icon icon={service.node.metadata.icon} size="3x" onClick={() => this.handleServiceClick(serviceData.indexOf(service))} /> : null}
+                  <h5 style={styles.detailsName} onClick={() => this.handleServiceClick(serviceData.indexOf(service))}>{service.node.title}</h5>
+                  <p style={styles.detailsDesc} onClick={() => this.handleServiceClick(serviceData.indexOf(service))}>{service.node.metadata.summary}</p>
+                  {this.state.activeIndex === serviceData.indexOf(service)
+                    ? <div style={styles.serviceExtra}>
+                      <p style={styles.detailsDesc}>{service.node.metadata.description}</p>
+                      <IconButton
+                        circle
+                        icon={<Icon icon="angle-up" />}
+                        onClick={() => this.handleServiceClick(null)}
+                      />
+                    </div>
+                    : null
+                  }
                 </div>
-              </Whisper>
+              </div>
             ))}
           </section>
           <section className="section-container medium">
@@ -166,6 +194,10 @@ class Work extends React.Component {
         </section>
       </Layout>
     )
+  }
+
+  handleServiceClick(index) {
+    this.setState({ activeIndex: index })
   }
 }
 
@@ -222,11 +254,6 @@ query Work {
     }
   }
 `
-
-Speaker.propTypes = {
-  title: PropTypes.string,
-  content: PropTypes.string,
-}
 
 Work.propTypes = {
   data: PropTypes.object,

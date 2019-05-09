@@ -9,33 +9,60 @@
 
 <p align="center">Portfolio client designed with creative agencies in mind.</p>
 
-## 🚀 Quick start
+## Getting Started
 
-1.  **Create a Gatsby site.**
+This project uses Gatsby and has been boostrapped using the [Gatsby CLI](https://www.gatsbyjs.org/docs/gatsby-cli/)
 
-    Use the Gatsby CLI to create a new site, specifying the default starter.
+1.  **Install this source code.**
+
+    Clone this directory to your local machine
 
     ```sh
-    # create a new Gatsby site using the default starter
-    gatsby new my-default-starter https://github.com/gatsbyjs/gatsby-starter-default
+    git clone https://github.com/JacobKnaack/gatsby-agency-portfolio.git
     ```
 
-2.  **Start developing.**
+    Install project dependencies
+    ```sh
+    npm install
+    ```
+    or
+    ```sh
+    yarn install
+    ```
 
-    Navigate into your new site’s directory and start it up.
+2. **Intialize your bucket on Cosmic JS.** 
+   
+   Click here to get started: [![Powered by Cosmic JS](https://s3-us-west-2.amazonaws.com/cosmicjs/51fe54d0-4f6e-11e9-9f32-8d001da69630-powered-by-cosmicjs.svg)](https://cosmicjs.com/add-bucket?import_bucket=5cbf745a10d5c22da1f9b3e2)
+
+    You will need to create a file for configuring your local runtime environment
 
     ```sh
-    cd my-default-starter/
+    cd gatsby-agency-portfolio/
+    touch .env
+    ```
+
+    Add your environment variables
+    ```sh
+    # inside .env at project root
+    COSMIC_READ_KEY=your-cosmic-js-read-key
+    COSMIC_BUCKET_SLUG=your-cosmic-bucket-slug
+    ```
+
+3.  **Start developing.**
+
+    start the development server.
+
+    ```sh
     gatsby develop
     ```
 
-3.  **Open the source code and start editing!**
+4.  **Open the source code and start editing!**
 
     Your site is now running at `http://localhost:8000`!
 
     _Note: You'll also see a second link: _`http://localhost:8000/___graphql`_. This is a tool you can use to experiment with querying your data. Learn more about using this tool in the [Gatsby tutorial](https://www.gatsbyjs.org/tutorial/part-five/#introducing-graphiql)._
 
-    Open the `my-default-starter` directory in your code editor of choice and edit `src/pages/index.js`. Save your changes and the browser will update in real time!
+    Open the `gatsby-agency-portfolio` directory in your code editor of choice and edit `src/pages/index.js`. Save your changes and the browser will update in real time!
 
 ## 🧐 What's inside?
 
@@ -91,4 +118,3 @@ Looking for more guidance? Full documentation for Gatsby lives [on the website](
 
 [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/gatsbyjs/gatsby-starter-default)
 
-<!-- AUTO-GENERATED-CONTENT:END -->

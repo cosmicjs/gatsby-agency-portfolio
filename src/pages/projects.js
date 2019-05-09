@@ -89,7 +89,7 @@ class Projects extends React.Component {
               )
             })}
           </div>
-          <Modal style={styles.modal} show={this.state.modalOpen} onHide={this.handleClose}>
+          <Modal style={styles.modal} show={this.state.modalOpen} onHide={this.handleClose} size="md">
             {this.state.selectedProject.title
               ? <Modal.Header>
                 <Modal.Title>{this.state.selectedProject.title}</Modal.Title>
