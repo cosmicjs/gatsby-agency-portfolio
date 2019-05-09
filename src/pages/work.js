@@ -15,8 +15,9 @@ const Speaker = ({ title, content }) => (
 class Work extends React.Component {
 
   render() {
-    const pageData = this.props.data
-    const services = pageData.page.object.metadata.services
+    const pageData = this.props.data.cosmicjsPages.metadata
+    const serviceData = this.props.data.allCosmicjsServices.edges
+    const siteData = this.props.data.cosmicjsSettings.metadata
     let headerBreakpoint
     if (typeof window !== 'undefined') {
       headerBreakpoint = window.innerHeight / 3
@@ -101,17 +102,17 @@ class Work extends React.Component {
         fontSize: '0.9rem',
       },
     }
-    if (pageData.page.object.metadata.splash_image) {
-      styles.pageHeader.background = `url(${pageData.page.object.metadata.splash_image.url})`
+    if (pageData.splash_image) {
+      styles.pageHeader.background = `url(${pageData.splash_image.url})`
       styles.pageHeader.backgroundSize = 'cover'
       styles.pageHeader.backgroundPosition = 'center'
     }
     return (
       <Layout
-        siteTitle={pageData.layout.object.metadata.site_title}
-        siteLogo={pageData.layout.object.metadata.site_logo}
-        connect={pageData.layout.object.metadata.connect}
-        contact={pageData.layout.object.metadata.contact}
+        siteTitle={siteData.site_title}
+        siteLogo={siteData.site_logo}
+        connect={siteData.connect}
+        contact={siteData.contact}
         headerBreakpoint={headerBreakpoint}
       >
         <SEO title="Work" />
@@ -119,32 +120,31 @@ class Work extends React.Component {
           <header className="page-header work" style={styles.pageHeader}>
             <div className="header-filter">
               <h3>What We Do</h3>
-              {pageData.page.object.metadata.description
-                ? <p className="page-header-description">{pageData.page.object.metadata.description}</p>
+              {pageData.splash_phrase
+                ? <p className="page-header-description">{pageData.splash_phrase}</p>
                 : null
               }
             </div>
           </header>
           <section className="section-container short row">
-            <h4 className="intro-summary" style={styles.summary}>{pageData.page.object.metadata.intro_summary}</h4>
-            <p className="intro-description" style={styles.description}>{pageData.page.object.metadata.intro_description}</p>
+            <h4 className="intro-summary" style={styles.summary}>{pageData.intro_summary}</h4>
+            <p className="intro-description" style={styles.description}>{pageData.intro_description}</p>
           </section>
           <section className="section-container services medium" style={styles.serviceList}>
-            {services.map(service => (
+            {serviceData.map(service => (
               <Whisper
-                key={service.name}
+                key={service.node.title}
                 trigger="click"
-                placement="top"
-                speaker={<Speaker title={service.name} content={service.description} />}
+                speaker={<Speaker title={service.node.title} content={service.node.metadata.description} />}
               >
                 <div
                   className="service-container"
                   style={styles.serviceContainer}
                 >
                   <div style={styles.serviceDetails}>
-                    {service.icon ? <Icon icon={service.icon} size="3x" /> : null}
-                    <h5 style={styles.detailsName}>{service.name}</h5>
-                    <p style={styles.detailsDesc}>{service.summary}</p>
+                    {service.node.metadata.icon ? <Icon icon={service.node.metadata.icon} size="3x" /> : null}
+                    <h5 style={styles.detailsName}>{service.node.title}</h5>
+                    <p style={styles.detailsDesc}>{service.node.metadata.summary}</p>
                   </div>
                 </div>
               </Whisper>
@@ -155,7 +155,7 @@ class Work extends React.Component {
               <h2 style={styles.headerText}>Our Clients</h2>
             </div>
             <div style={styles.clientList}>
-              {pageData.page.object.metadata.clients.map(client => (
+              {pageData.clients.map(client => (
                 <a key={client.name} style={styles.clientItem} href={`https://${client.url}`}>
                   <p>{client.name}</p>
                   <img src={client.image} alt={client.name} style={styles.clientImage} />
@@ -170,21 +170,59 @@ class Work extends React.Component {
 }
 
 export const query = graphql`
-  query($cosmicBucket: String!, $readKey: String!) {
-    page {
-      object(bucket_slug: $cosmicBucket, read_key: $readKey, slug: "work") {
-        title
-        metadata
+query Work {
+    cosmicjsPages(slug: { eq: "work" }) {
+      metadata {
+        splash_image {
+          url
+        }
+        splash_phrase
+        intro_summary
+        intro_description
+        clients {
+          name
+          url
+          image
+        }
       }
     }
-    layout {
-      object(bucket_slug: $cosmicBucket, read_key: $readKey, slug: "layout") {
-        title
-        metadata
+    allCosmicjsServices {
+      edges {
+        node {
+          title
+          metadata {
+            icon
+            summary
+            description
+          }
+        }
+      }
+    }
+    cosmicjsSettings(slug: { eq: "site-data" }) {
+      metadata {
+        site_title
+        site_logo {
+          url
+        }
+        contact {
+          address1
+          address2
+          postalCode
+          city
+          region
+          cc
+          phone
+          email
+        }
+        connect {
+          name
+          url
+        }
       }
     }
   }
 `
+
 Speaker.propTypes = {
   title: PropTypes.string,
   content: PropTypes.string,

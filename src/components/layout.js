@@ -42,6 +42,9 @@ const Layout = ({ children, siteTitle, siteLogo, contact, connect, headerBreakpo
       flexDirection: 'row',
       justifyContent: 'space-between',
       alignItems: 'center',
+    },
+    contactLine: {
+      marginBottom: '10px'
     }
   }
   return (
@@ -51,11 +54,11 @@ const Layout = ({ children, siteTitle, siteLogo, contact, connect, headerBreakpo
       <footer style={styles.footer}>
         {contact
           ? <div>
-            <h6 style={{ marginBottom: '10px' }}>{contact.address1}</h6>
-            <h6 style={{ marginBottom: '10px' }}>{contact.address2}</h6>
-            <h6 style={{ marginBottom: '10px' }}>{`${contact.city} ${contact.region}, ${contact.postalCode}`}</h6>
-            <h6 style={{ marginBottom: '10px' }}>{`Phone: ${contact.phone}`}</h6>
-            <h6 style={{ marginBottom: '10px' }}>{`Email: ${contact.email}`}</h6>
+            <h6 style={styles.contactLine}>{contact.address1}</h6>
+            <h6 style={styles.contactLine}>{contact.address2}</h6>
+            <h6 style={styles.contactLine}>{`${contact.city} ${contact.region}, ${contact.postalCode}`}</h6>
+            <h6 style={styles.contactLine}>{`Phone: ${contact.phone}`}</h6>
+            <h6 style={styles.contactLine}>{`Email: ${contact.email}`}</h6>
           </div>
           : null
         }

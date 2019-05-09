@@ -9,7 +9,9 @@ import SEO from "../components/seo"
 
 class About extends React.Component {
   render() {
-    const pageData = this.props.data
+    const pageData = this.props.data.cosmicjsPages.metadata
+    const peopleData = this.props.data.allCosmicjsPeople.edges
+    const siteData = this.props.data.cosmicjsSettings.metadata
     let headerBreakpoint
     if (typeof window !== 'undefined') {
       headerBreakpoint = window.innerHeight / 3
@@ -55,7 +57,7 @@ class About extends React.Component {
         maxWidth: '300px',
       },
       person: {
-        maxWidth: '25%',
+        width: '25%',
         padding: '10px',
         display: 'flex',
         flexDirection: 'column',
@@ -73,18 +75,18 @@ class About extends React.Component {
         fontSize: '0.8rem',
       }
     }
-    if (pageData.page.object.metadata.splash_image) {
-      styles.pageHeader.background = `url(${pageData.page.object.metadata.splash_image.url})`
+    if (pageData.splash_image) {
+      styles.pageHeader.background = `url(${pageData.splash_image.url})`
       styles.pageHeader.backgroundSize = 'cover'
       styles.pageHeader.backgroundPosition = 'center'
     }
 
     return (
       <Layout
-        siteTitle={pageData.layout.object.metadata.site_title}
-        siteLogo={pageData.layout.object.metadata.site_logo}
-        contact={pageData.layout.object.metadata.contact}
-        connect={pageData.layout.object.metadata.connect}
+        siteTitle={siteData.site_title}
+        siteLogo={siteData.site_logo}
+        contact={siteData.contact}
+        connect={siteData.connect}
         headerBreakpoint={headerBreakpoint}
       >
         <SEO title="About" />
@@ -92,18 +94,18 @@ class About extends React.Component {
           <header className="page-header about" style={styles.pageHeader}>
             <div className="header-filter">
               <h3>Who We Are</h3>
-              {pageData.page.object.metadata.description
-                ? <p className="page-header-description">{pageData.page.object.metadata.description}</p>
+              {pageData.splash_phrase
+                ? <p className="page-header-description">{pageData.splash_phrase}</p>
                 : null
               }
             </div>
           </header>
           <section className="section-container short row">
-            <h4 className="intro-summary" style={styles.summary}>{pageData.page.object.metadata.intro_summary}</h4>
-            <p className="intro-description" style={styles.description}>{pageData.page.object.metadata.intro_description}</p>
+            <h4 className="intro-summary" style={styles.summary}>{pageData.intro_summary}</h4>
+            <p className="intro-description" style={styles.description}>{pageData.intro_description}</p>
           </section>
           <section className="section-container short" style={styles.skills}>
-            {pageData.page.object.metadata.skills.map(skill => (
+            {pageData.skills.map(skill => (
               <div key={skill.name}>
                 <div style={styles.skillDetails}>
                   <h4 style={styles.skillName}>{skill.name}</h4>
@@ -119,11 +121,20 @@ class About extends React.Component {
           </section>
           <section className="section-container content medium">
             <div className="wrapper-content people">
-              {pageData.page.object.metadata.people.map(person => (
-                <div key={person.name} style={styles.person}>
-                  <img alt={person.name} src={person.imageUrl} />
-                  <h5 style={styles.personName}>{person.name}</h5>
-                  <h6 style={styles.personTitle}>{person.title}</h6>
+              {peopleData.map(person => (
+                <div key={person.node.title} style={styles.person}>
+                  <div
+                    style={{
+                      background: `url(${person.node.metadata.image.url})`,
+                      backgroundSize: 'cover',
+                      backgroundPosition: 'center',
+                      marginBottom: '14px',
+                      width: '100%',
+                      height: '200px',
+                    }}
+                  />
+                  <h5 style={styles.personName}>{person.node.title}</h5>
+                  <h6 style={styles.personTitle}>{person.node.metadata.job_title}</h6>
                 </div>
               ))}
             </div>
@@ -135,17 +146,55 @@ class About extends React.Component {
 }
 
 export const query = graphql`
-  query($cosmicBucket: String!, $readKey: String!) {
-    page {
-      object(bucket_slug: $cosmicBucket, read_key: $readKey, slug: "about") {
-        title
-        metadata
+  query About {
+    cosmicjsPages(slug: { eq: "about" }) {
+      metadata {
+        splash_image {
+          url
+        }
+        splash_phrase
+        intro_description
+        intro_summary
+        skills {
+          name
+          description
+          progress
+        }
       }
     }
-    layout {
-      object(bucket_slug: $cosmicBucket, read_key: $readKey, slug: "layout") {
-        title
-        metadata
+    allCosmicjsPeople {
+      edges {
+        node {
+          title
+          metadata {
+            image {
+              url
+            }
+            job_title
+          }
+        }
+      }
+    }
+    cosmicjsSettings(slug: { eq: "site-data" }) {
+      metadata {
+        site_title
+        site_logo {
+          url
+        }
+        contact {
+          address1
+          address2
+          postalCode
+          city
+          region
+          cc
+          phone
+          email
+        }
+        connect {
+          name
+          url
+        }
       }
     }
   }

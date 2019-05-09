@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 module.exports = {
   siteMetadata: {
     title: `Gatsby Agency Portfolio`,
@@ -7,6 +9,15 @@ module.exports = {
   plugins: [
     `gatsby-plugin-eslint`,
     `gatsby-plugin-react-helmet`,
+    {
+      resolve: `gatsby-plugin-manifest`,
+      options: {
+        name: `gatsby-agency-portfolio`,
+        short_name: `GAP`,
+        start_url: `/`,
+        icon: `src/images/gap_logo.svg`,
+      },
+    },
     {
       resolve: `gatsby-source-filesystem`,
       options: {
@@ -23,22 +34,14 @@ module.exports = {
       }
     },
     {
-      resolve: `gatsby-source-graphql`,
+      resolve: `gatsby-source-cosmicjs`,
       options: {
-        url: `https://graphql.cosmicjs.com/v1`,
-        fieldName: `page`,
-        typeName: `Page`,
-        refetchInterval: 10,
-      },
-    },
-    {
-      resolve: `gatsby-source-graphql`,
-      options: {
-        url: `https://graphql.cosmicjs.com/v1`,
-        fieldName: `layout`,
-        typeName: `Layout`,
-        refetchInterval: 10,
-      },
+        bucketSlug: process.env.COSMIC_BUCKET_SLUG,
+        objectTypes: [`pages`, `people`, `services`, `projects`, `settings`],
+        apiAccess: {
+          read_key: process.env.COSMIC_READ_KEY,
+        }
+      }
     }
     // this (optional) plugin enables Progressive Web App + Offline functionality
     // To learn more, visit: https://gatsby.dev/offline

@@ -51,7 +51,11 @@ class IndexPage extends React.Component {
   }
 
   render() {
-    const pageData = this.props.data
+    const pageData = this.props.data.cosmicjsPages.metadata
+    const siteData = this.props.data.cosmicjsSettings.metadata
+    const peopleData = this.props.data.allCosmicjsPeople.edges
+    const serviceData = this.props.data.allCosmicjsServices.edges
+    const projectData = this.props.data.allCosmicjsProjects.edges
     let headerBreakpoint
     if (typeof window !== 'undefined') {
       headerBreakpoint = window.innerHeight - 125
@@ -117,7 +121,7 @@ class IndexPage extends React.Component {
         color: '#a9a9a9',
       },
       person: {
-        maxWidth: '25%',
+        width: '25%',
         padding: '10px',
         display: 'flex',
         flexDirection: 'column',
@@ -135,25 +139,25 @@ class IndexPage extends React.Component {
         fontSize: '0.8rem',
       }
     }
-    if (pageData.page.object.metadata.splash_image) {
-      styles.splash.background = `url(${pageData.page.object.metadata.splash_image.url})`
+    if (pageData.splash_image) {
+      styles.splash.background = `url(${pageData.splash_image.url})`
       styles.splash.backgroundSize = `cover`
       styles.splash.backgroundRepeat = 'no-repeat'
       styles.splash.backgroundPosition = 'center'
     }
     return (
       <Layout
-        siteTitle={pageData.layout.object.metadata.site_title}
-        siteLogo={pageData.layout.object.metadata.site_logo}
-        contact={pageData.layout.object.metadata.contact}
-        connect={pageData.layout.object.metadata.connect}
+        siteTitle={siteData.site_title}
+        siteLogo={siteData.site_logo}
+        contact={siteData.contact}
+        connect={siteData.connect}
         headerBreakpoint={headerBreakpoint}
       >
         <SEO title="Home" keywords={[`cosmic js`, `application`, `react`]} />
         <section style={styles.splash} className="section-container splash">
-          {pageData.page.object.metadata.splash_phrase
+          {pageData.splash_phrase
             ? <div className="splash-phrase" style={styles.splashPhrase}>
-              <h2 style={{ fontSize: '2.5rem' }}>{pageData.page.object.metadata.splash_phrase}</h2>
+              <h2 style={{ fontSize: '2.5rem' }}>{pageData.splash_phrase}</h2>
             </div>
             : null
           }
@@ -167,24 +171,24 @@ class IndexPage extends React.Component {
             <div className="section-wrapper">
               <div className="section-header" style={styles.header}>
                 <h2 className="section-title" style={styles.title}>What We Do</h2>
-                <p className="people-description" style={styles.description}>{pageData.page.object.metadata.service_description}</p>
+                <p className="people-description" style={styles.description}>{pageData.service_description}</p>
               </div>
               <div className="wrapper-content services">
-                {pageData.page.object.metadata.services.map(service => (
-                  <Link to="/work" key={service.name} className="service-link" style={styles.service}>
-                    <Icon size="3x" icon={service.icon} />
-                    <h5 style={styles.serviceName}>{service.name}</h5>
-                    <p style={styles.serviceDescription}>{service.description}</p>
+                {serviceData.map(service => (
+                  <Link to="/work" key={service.node.title} className="service-link" style={styles.service}>
+                    <Icon size="3x" icon={service.node.metadata.icon} />
+                    <h5 style={styles.serviceName}>{service.node.title}</h5>
+                    <p style={styles.serviceDescription}>{service.node.metadata.summary}</p>
                   </Link>
                 ))}
               </div>
               <div className="wrapper-content projects">
-                {pageData.page.object.metadata.showcase.map(project => (
+                {projectData.map(project => (
                   <ProjectDisplay
-                    key={project.title}
-                    title={project.title}
-                    description={project.description}
-                    image={project.image}
+                    key={project.node.title}
+                    title={project.node.title}
+                    description={project.node.metadata.summary}
+                    image={project.node.metadata.image.url}
                   />
                 ))}
               </div>
@@ -199,15 +203,24 @@ class IndexPage extends React.Component {
             <div className="section-wrapper">
               <div style={styles.header}>
                 <h2 className="section-title" style={styles.title}>Who We Are</h2>
-                <p style={styles.description}>{pageData.page.object.metadata.people_description}</p>
+                <p style={styles.description}>{pageData.people_description}</p>
               </div>
               <div className="wrapper-content people">
-                {pageData.page.object.metadata.people.map(person => {
+                {peopleData.map(person => {
                   return (
-                    <Link key={person.name} to="/about" style={styles.person}>
-                      <img alt={person.name} src={person.imageUrl} />
-                      <h5 style={styles.personName}>{person.name}</h5>
-                      <h6 style={styles.personTitle}>{person.title}</h6>
+                    <Link key={person.node.title} to="/about" style={styles.person}>
+                      <div
+                        style={{
+                          background: `url(${person.node.metadata.image.url})`,
+                          backgroundSize: 'cover',
+                          backgroundPosition: 'center',
+                          marginBottom: '14px',
+                          width: '100%',
+                          height: '200px',
+                        }}
+                      />
+                      <h5 style={styles.personName}>{person.node.title}</h5>
+                      <h6 style={styles.personTitle}>{person.node.metadata.job_title}</h6>
                     </Link>
                   )
                 })}
@@ -264,17 +277,17 @@ class IndexPage extends React.Component {
   }
 
   handleScroll() {
-    if (window.scrollY >= (window.innerHeight / 2) + 100) {
+    if (window.scrollY >= (window.innerHeight / 3) + 100) {
       this.setState({ showWork: true })
     } else {
       this.setState({ showWork: false })
     }
-    if (window.scrollY >= (window.innerHeight + this.state.workHeight - (this.state.workHeight / 2.5))) {
+    if (window.scrollY >= ((window.innerHeight + this.state.workHeight) - (window.innerHeight / 3))) {
       this.setState({ showPeople: true, showWork: false })
     } else {
       this.setState({ showPeople: false })
     }
-    if (window.scrollY >= (window.innerHeight + this.state.workHeight + this.state.peopleHeight - (this.state.peopleHeight / 2.5))) {
+    if (window.scrollY >= ((window.innerHeight + this.state.workHeight + this.state.peopleHeight) - (window.innerHeight / 3))) {
       this.setState({ showContact: true, showPeople: false })
     } else {
       this.setState({ showContact: false })
@@ -287,7 +300,7 @@ class IndexPage extends React.Component {
       this.setState({ messageError: true })
     } else {
       window.location.href = `
-        mailto:${this.props.data.page.object.metadata.contact_email}
+        mailto:${this.props.data.cosmicjsPages.metadata.contact_email}
         ?subject=${this.state.messageSubject}
         &body=Name :: ${this.state.userName}%0D%0AEmail :: ${this.state.userEmail}%0D%0ASent From :: ${window.location.href},%0D%0A%0D%0A${this.state.userMessage}`
     }
@@ -304,20 +317,83 @@ IndexPage.propTypes = {
 }
 
 export const query = graphql`
-  query($cosmicBucket: String!, $readKey: String!) {
-    page {
-      object(bucket_slug: $cosmicBucket, read_key: $readKey, slug: "home") {
-        title
-        metadata
+query Index {
+  cosmicjsPages(slug: { eq: "home" }) {
+    metadata {
+      splash_image {
+        url
       }
+      splash_phrase
+      contact_email
+      service_description
+      people_description
     }
-    layout {
-      object(bucket_slug: $cosmicBucket, read_key: $readKey, slug: "layout") {
+  }
+  allCosmicjsPeople {
+    edges {
+      node {
         title
-        metadata
+        metadata {
+          image {
+            url
+          }
+          job_title
+        }
       }
     }
   }
+  allCosmicjsServices {
+    edges {
+      node {
+        title
+        metadata {
+          icon
+          description
+          summary
+        }
+      }
+    }
+  }
+  allCosmicjsProjects {
+    edges {
+      node {
+        title
+        metadata {
+          date
+          image {
+            url
+          }
+          gallery
+          summary
+          description
+        }
+      }
+    }
+  }
+  cosmicjsSettings(slug: { eq: "site-data" }) {
+    metadata {
+      site_title
+      site_logo {
+        url
+      }
+      contact {
+        address1
+        address2
+        postalCode
+        city
+        region
+        cc
+        phone
+        email
+      }
+      connect {
+        name
+        url
+      }
+    }
+  }
+}
 `
+
 
 export default IndexPage

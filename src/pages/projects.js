@@ -18,14 +18,14 @@ class Projects extends React.Component {
 
   static getDerivedStateFromProps(props, state) {
     const tempState = state
-    const list = props.data.page.object.metadata.list
+    const list = props.data.allCosmicjsProjects.edges
     let projectName
     if (typeof window !== "undefined") {
       projectName = decodeURI(window.location.search).substring(1)
     }
     for (const i in list) {
-      if (list[i].name === projectName) {
-        tempState.selectedProject = list[i]
+      if (list[i].node.title === projectName) {
+        tempState.selectedProject = list[i].node
         tempState.modalOpen = true
       }
     }
@@ -33,7 +33,9 @@ class Projects extends React.Component {
   }
 
   render() {
-    const pageData = this.props.data
+    const pageData = this.props.data.cosmicjsPages.metadata
+    const projectData = this.props.data.allCosmicjsProjects.edges
+    const siteData = this.props.data.cosmicjsSettings.metadata
     let headerBreakpoint
     if (typeof window !== 'undefined') {
       headerBreakpoint = window.innerHeight / 3
@@ -41,6 +43,9 @@ class Projects extends React.Component {
     const styles = {
       header: {
         padding: '0',
+      },
+      modal: {
+        top: '50px'
       },
       gallery: {
         marginTop: '15px',
@@ -50,17 +55,17 @@ class Projects extends React.Component {
         alignItems: 'center',
       }
     }
-    if (pageData.page.object.metadata.splash_image) {
-      styles.header.background = `url(${pageData.page.object.metadata.splash_image.url})`
+    if (pageData.splash_image) {
+      styles.header.background = `url(${pageData.splash_image.url})`
       styles.header.backgroundSize = 'cover'
       styles.header.backgroundPosition = 'center'
     }
     return (
       <Layout
-        siteTitle={pageData.layout.object.metadata.site_title}
-        siteLogo={pageData.layout.object.metadata.site_logo}
-        contact={pageData.layout.object.metadata.contact}
-        connect={pageData.layout.object.metadata.connect}
+        siteTitle={siteData.site_title}
+        siteLogo={siteData.site_logo}
+        contact={siteData.contact}
+        connect={siteData.connect}
         headerBreakpoint={headerBreakpoint}
       >
         <SEO title="Projects" />
@@ -68,35 +73,38 @@ class Projects extends React.Component {
           <header className="page-header projects" style={styles.header}>
             <div className="header-filter">
               <h3>Check Out Our Work</h3>
-              <p className="page-header-description">{pageData.page.object.metadata.summary}</p>
+              <p className="page-header-description">{pageData.summary}</p>
             </div>
           </header>
           <div className="project-gallery">
-            {pageData.page.object.metadata.list.map(project => {
+            {projectData.map(project => {
               return (
                 <ProjectDisplay
-                  key={project.name}
-                  title={project.name}
-                  description={project.summary}
-                  image={project.image}
+                  key={project.node.title}
+                  title={project.node.title}
+                  description={project.node.metadata.summary}
+                  image={project.node.metadata.image.url}
                   size="tall"
                 />
               )
             })}
           </div>
-          <Modal style={{ top: '50px' }} show={this.state.modalOpen} onHide={this.handleClose}>
-            <Modal.Header>
-              <Modal.Title>{this.state.selectedProject.name}</Modal.Title>
-              <p>{this.state.selectedProject.date}</p>
-            </Modal.Header>
-            {this.state.selectedProject.name
+          <Modal style={styles.modal} show={this.state.modalOpen} onHide={this.handleClose}>
+            {this.state.selectedProject.title
+              ? <Modal.Header>
+                <Modal.Title>{this.state.selectedProject.title}</Modal.Title>
+                <p>{this.state.selectedProject.metadata.date}</p>
+              </Modal.Header>
+              : null
+            }
+            {this.state.selectedProject.title
               ? <Modal.Body>
-                {this.state.selectedProject.description}
+                {this.state.selectedProject.metadata.description}
                 <div className="modal-gallery" style={styles.gallery}>
-                  {this.state.selectedProject.gallery.map(imageUrl => (
+                  {this.state.selectedProject.metadata.gallery.map(imageUrl => (
                     <img
                       key={imageUrl}
-                      alt={this.state.selectedProject.name}
+                      alt={this.state.selectedProject.title}
                       src={imageUrl}
                     />
                   ))}
@@ -118,17 +126,51 @@ class Projects extends React.Component {
 }
 
 export const query = graphql`
-  query($cosmicBucket: String!, $readKey: String!) {
-    page {
-      object(bucket_slug: $cosmicBucket, read_key: $readKey, slug: "projects") {
-        title
-        metadata
+  query Projects {
+    cosmicjsPages(slug: { eq: "projects" }) {
+      metadata {
+        splash_image {
+          url
+        }
+        summary
       }
     }
-    layout {
-      object(bucket_slug: $cosmicBucket, read_key: $readKey, slug: "layout") {
-        title
-        metadata
+    allCosmicjsProjects {
+      edges {
+        node {
+          title
+          metadata {
+            date
+            gallery
+            image {
+              url
+            }
+            summary
+            description
+          }
+        }
+      }
+    }
+    cosmicjsSettings(slug: { eq: "site-data" }) {
+      metadata {
+        site_title
+        site_logo {
+          url
+        }
+        contact {
+          address1
+          address2
+          postalCode
+          city
+          region
+          cc
+          phone
+          email
+        }
+        connect {
+          name
+          url
+        }
       }
     }
   }
