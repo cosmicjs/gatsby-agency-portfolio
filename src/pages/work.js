@@ -213,11 +213,6 @@ query Work {
         splash_phrase
         intro_summary
         intro_description
-        clients {
-          name
-          url
-          image
-        }
       }
     }
     allCosmicjsServices {
