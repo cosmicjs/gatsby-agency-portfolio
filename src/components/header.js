@@ -1,7 +1,7 @@
+import React from "react"
 import { Link } from "gatsby"
 import PropTypes from "prop-types"
 import { Navbar, Nav } from "rsuite"
-import React from "react"
 
 class Header extends React.Component {
   constructor() {

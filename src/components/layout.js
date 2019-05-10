@@ -70,8 +70,8 @@ const Layout = ({ children, siteTitle, siteLogo, contact, connect, headerBreakpo
           ? <div style={styles.linkContainer}>
             {connect.map(link => {
               return (
-                <a key={link.name} href={`https://${link.url}`} style={styles.link}>
-                  <Icon size="3x" icon={link.name} />
+                <a key={link.node.title} href={`https://${link.node.metadata.url}`} style={styles.link}>
+                  <Icon size="3x" icon={link.node.title} />
                 </a>
               )
             })}

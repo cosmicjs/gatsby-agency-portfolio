@@ -11,7 +11,10 @@ class About extends React.Component {
   render() {
     const pageData = this.props.data.cosmicjsPages.metadata
     const peopleData = this.props.data.allCosmicjsPeople.edges
+    const skillData = this.props.data.allCosmicjsSkills.edges
     const siteData = this.props.data.cosmicjsSettings.metadata
+    const contactData = this.props.data.cosmicjsContacts.metadata
+    const connectData = this.props.data.allCosmicjsConnects.edges
     let headerBreakpoint
     if (typeof window !== 'undefined') {
       headerBreakpoint = window.innerHeight / 3
@@ -85,8 +88,8 @@ class About extends React.Component {
       <Layout
         siteTitle={siteData.site_title}
         siteLogo={siteData.site_logo}
-        contact={siteData.contact}
-        connect={siteData.connect}
+        contact={contactData}
+        connect={connectData}
         headerBreakpoint={headerBreakpoint}
       >
         <SEO title="About" />
@@ -105,14 +108,14 @@ class About extends React.Component {
             <p className="intro-description" style={styles.description}>{pageData.intro_description}</p>
           </section>
           <section className="section-container short" style={styles.skills}>
-            {pageData.skills.map(skill => (
-              <div key={skill.name}>
+            {skillData.map(skill => (
+              <div key={skill.node.title}>
                 <div style={styles.skillDetails}>
-                  <h4 style={styles.skillName}>{skill.name}</h4>
-                  <p style={styles.skillDescription}>{skill.description}</p>
+                  <h4 style={styles.skillName}>{skill.node.title}</h4>
+                  <p style={styles.skillDescription}>{skill.node.metadata.description}</p>
                 </div>
                 <Line
-                  percent={skill.progress}
+                  percent={skill.node.metadata.progress}
                   showInfo={false}
                   strokeColor="black"
                 />
@@ -155,11 +158,6 @@ export const query = graphql`
         splash_phrase
         intro_description
         intro_summary
-        skills {
-          name
-          description
-          progress
-        }
       }
     }
     allCosmicjsPeople {
@@ -175,24 +173,43 @@ export const query = graphql`
         }
       }
     }
+    allCosmicjsConnects {
+      edges {
+        node {
+          title
+          metadata {
+            url
+          }
+        }
+      }
+    }
+    allCosmicjsSkills {
+      edges {
+        node {
+          title
+          metadata {
+            progress
+            description
+          }
+        }
+      }
+    }
+    cosmicjsContacts(slug: {eq: "company-footer"}) {
+      metadata {
+        address1
+        address2
+        postal_code
+        city
+        region
+        country_code
+        email
+        phone_number
+      }
+    }
     cosmicjsSettings(slug: { eq: "site-data" }) {
       metadata {
         site_title
         site_logo {
-          url
-        }
-        contact {
-          address1
-          address2
-          postalCode
-          city
-          region
-          cc
-          phone
-          email
-        }
-        connect {
-          name
           url
         }
       }

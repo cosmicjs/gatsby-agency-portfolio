@@ -18,6 +18,8 @@ class Work extends React.Component {
   render() {
     const pageData = this.props.data.cosmicjsPages.metadata
     const serviceData = this.props.data.allCosmicjsServices.edges
+    const clientData = this.props.data.allCosmicjsClients.edges
+    const connectData = this.props.data.allCosmicjsConnects.edges
     const siteData = this.props.data.cosmicjsSettings.metadata
     let headerBreakpoint
     if (typeof window !== 'undefined') {
@@ -133,8 +135,8 @@ class Work extends React.Component {
       <Layout
         siteTitle={siteData.site_title}
         siteLogo={siteData.site_logo}
-        connect={siteData.connect}
         contact={siteData.contact}
+        connect={connectData}
         headerBreakpoint={headerBreakpoint}
       >
         <SEO title="Work" />
@@ -183,10 +185,10 @@ class Work extends React.Component {
               <h2 style={styles.headerText}>Our Clients</h2>
             </div>
             <div style={styles.clientList}>
-              {pageData.clients.map(client => (
-                <a key={client.name} style={styles.clientItem} href={`https://${client.url}`}>
-                  <p>{client.name}</p>
-                  <img src={client.image} alt={client.name} style={styles.clientImage} />
+              {clientData.map(client => (
+                <a key={client.node.title} style={styles.clientItem} href={`https://${client.node.metadata.url}`}>
+                  <p>{client.node.title}</p>
+                  <img src={client.node.metadata.image.url} alt={client.node.title} style={styles.clientImage} />
                 </a>
               ))}
             </div>
@@ -230,24 +232,45 @@ query Work {
         }
       }
     }
+    allCosmicjsClients {
+      edges {
+        node {
+          title
+          metadata {
+            url
+            image {
+              url
+            }
+          }
+        }
+      }
+    }
+    allCosmicjsConnects {
+      edges {
+        node {
+          title
+          metadata {
+            url
+          }
+        }
+      }
+    }
+    cosmicjsContacts(slug: {eq: "company-footer"}) {
+      metadata {
+        address1
+        address2
+        postal_code
+        city
+        region
+        country_code
+        email
+        phone_number
+      }
+    }
     cosmicjsSettings(slug: { eq: "site-data" }) {
       metadata {
         site_title
         site_logo {
-          url
-        }
-        contact {
-          address1
-          address2
-          postalCode
-          city
-          region
-          cc
-          phone
-          email
-        }
-        connect {
-          name
           url
         }
       }
