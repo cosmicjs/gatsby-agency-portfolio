@@ -19,6 +19,7 @@ class Work extends React.Component {
     const pageData = this.props.data.cosmicjsPages.metadata
     const serviceData = this.props.data.allCosmicjsServices.edges
     const clientData = this.props.data.allCosmicjsClients.edges
+    const contactData = this.props.data.cosmicjsContacts.metadata
     const connectData = this.props.data.allCosmicjsConnects.edges
     const siteData = this.props.data.cosmicjsSettings.metadata
     let headerBreakpoint
@@ -135,7 +136,7 @@ class Work extends React.Component {
       <Layout
         siteTitle={siteData.site_title}
         siteLogo={siteData.site_logo}
-        contact={siteData.contact}
+        contact={contactData}
         connect={connectData}
         headerBreakpoint={headerBreakpoint}
       >
