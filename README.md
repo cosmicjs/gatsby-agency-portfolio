@@ -8,7 +8,7 @@
 </h1>
 
 <h3 align="center">
-  <a href="https://github.com/cosmicjs/gatsby-agency-portfolio">
+  <a href="https://cosmicjs.com/apps/gatsby-agency-portfolio">
     View Demo
   </a>
 </h3>
