@@ -1,11 +1,17 @@
 <p align="center">
-  <a href="https://github.com/JacobKnaack/gatsby-agency-portoflio">
+  <a href="https://github.com/cosmicjs/gatsby-agency-portfolio">
     <img alt="Gatsby Agency Portfolio" src="src/images/gap_logo.svg" width="60" />
   </a>
 </p>
 <h1 align="center">
   Gatsby Agency Portfolio
 </h1>
+
+<h3 align="center">
+  <a href="https://github.com/cosmicjs/gatsby-agency-portfolio">
+    View Demo
+  </a>
+</h3>
 
 <p align="center">Portfolio client designed with creative agencies in mind.</p>
 
@@ -18,7 +24,7 @@ This project uses Gatsby and has been boostrapped using the [Gatsby CLI](https:/
     Clone this directory to your local machine
 
     ```sh
-    git clone https://github.com/JacobKnaack/gatsby-agency-portfolio.git
+    git clone https://github.com/cosmicjs/gatsby-agency-portfolio
     ```
 
     Install project dependencies
